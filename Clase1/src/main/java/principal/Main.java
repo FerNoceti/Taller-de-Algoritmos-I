@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         // Creación de instancias de vehículos
         Auto auto1 = new Auto("2024", "rojo", 22000D, 50000F, true, 5, Auto.NAFTA, "FORD", "AS457RT");
-        Auto auto2 = new Auto("2000", "negro", 12000D, 80000F, true, 5, Auto.NAFTA, "RENAULT", "AW901RT");
+        Auto auto2 = new Auto("2000", "negro", 12000D, 80000F, true, 5, Auto.GASOIL, "RENAULT", "AW901RT");
 
         Moto moto1 = new Moto("2024", "azul", 8000D, 10000F, false, Moto.ALTA, "Yamaha", "YZF123");
         Moto moto2 = new Moto("2018", "verde", 5000D, 15000F, true, Moto.MEDIA, "Kawasaki", "NIN456");
