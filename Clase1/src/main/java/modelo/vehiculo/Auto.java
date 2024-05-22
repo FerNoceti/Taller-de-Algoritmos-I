@@ -69,42 +69,4 @@ public class Auto extends Vehiculo {
 
     }
 
-    // En esta seccion se muestra como implementar los metodos y fuciones definidos en la clase abstracta
-    @Override
-    public boolean cargarVehiculo(Vehiculo vehiculo) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean modificarVehiculo(Vehiculo vehiculo) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public void eliminarVehiculo(Vehiculo vehiculo) {
-        // TODO Auto-generated method stub
-
-    }
-	/* En esta seccion mostramo como implemetar los métodos y funcoines a traves de una interfaz.
-	 * Esta las coentamos para implementarlas en otra clase ABMAutos. 
-	@Override
-	public boolean cargarVehiculoImpl(Vehiculo vehiculo) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean modificarVehiculoImpl(Vehiculo vehiculo) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void eliminarVehiculoImpl(Vehiculo vehiculo) {
-		// TODO Auto-generated method stub
-		
-	}
-	*/
 }

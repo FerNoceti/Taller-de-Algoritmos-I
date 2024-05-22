@@ -61,10 +61,4 @@ public abstract class Vehiculo {//implements IAbmVehiculo {
         this.usado = usado;
     }
 
-    public abstract boolean cargarVehiculo(Vehiculo vehiculo);
-
-    public abstract boolean modificarVehiculo(Vehiculo vehiculo);
-
-    public abstract void eliminarVehiculo(Vehiculo vehiculo);
-
 }
