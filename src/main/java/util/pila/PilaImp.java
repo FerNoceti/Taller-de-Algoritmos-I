@@ -2,60 +2,74 @@ package util.pila;
 
 public class PilaImp implements IPila {
 
-    NodoPila tope;
+    Nodo top;
 
     public PilaImp() {
-        this.tope = null;
+        this.top = null;
     }
 
     @Override
-    public void insertarElemento(NodoPila nodoPila) {
+    public void insertarElemento(Nodo nodo) {
         if (esVacia()) {
-            this.tope = nodoPila;
+            this.top = nodo;
         } else {
-            nodoPila.ant = tope;
-            this.tope = nodoPila;
+            nodo.ant = top;
+            this.top = nodo;
         }
     }
 
     @Override
-    public NodoPila eliminarElemnto() {
-        NodoPila nodoEliminado = null;
+    public Nodo eliminarElemnto() {
+        Nodo nodoEliminado = null;
 
         if (esVacia()) {
             System.out.println("No se puede eliminar");
         } else {
-            nodoEliminado = this.tope;
-            this.tope = nodoEliminado.ant;
+            nodoEliminado = this.top;
+            this.top = nodoEliminado.ant;
         }
         return nodoEliminado;
     }
 
     @Override
     public void listarElementos() {
-        PilaImp pilaAMostrar = new PilaImp();
-        pilaAMostrar.tope = this.tope;
+        Nodo temp = top;
+        while (temp != null) {
+            System.out.println(temp.dato);
+            temp = temp.ant;
+        }
+    }
 
-        while (!pilaAMostrar.esVacia()){
-            System.out.println(pilaAMostrar.tope.dato);
-            pilaAMostrar.eliminarElemnto();
+    @Override
+    public void listarElementosInverso() {
+        listarElementosInversoRecursivo(top);
+    }
+
+    private void listarElementosInversoRecursivo(Nodo nodo) {
+        if (nodo != null) {
+            listarElementosInversoRecursivo(nodo.ant);
+            System.out.println(nodo.dato);
         }
     }
 
     private boolean esVacia() {
-        return this.tope == null;
+        return this.top == null;
     }
 
     public static void main(String[] args) {
         PilaImp pilaImp = new PilaImp();
 
-        pilaImp.insertarElemento(new NodoPila(2));
-        pilaImp.insertarElemento(new NodoPila(5));
+        pilaImp.insertarElemento(new Nodo(2));
+        pilaImp.insertarElemento(new Nodo(5));
+        pilaImp.insertarElemento(new Nodo(7));
+        pilaImp.insertarElemento(new Nodo(9));
 
         pilaImp.listarElementos();
 
         pilaImp.eliminarElemnto();
 
         pilaImp.listarElementos();
+
+        pilaImp.listarElementosInverso();
     }
 }
