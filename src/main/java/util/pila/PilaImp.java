@@ -33,23 +33,28 @@ public class PilaImp implements IPila {
 
     @Override
     public void listarElementos() {
+        String elementos = "";
+
         Nodo temp = top;
         while (temp != null) {
-            System.out.println(temp.dato);
+            elementos += temp.dato + " ";
             temp = temp.ant;
         }
+
+        System.out.println(elementos);
     }
 
     @Override
     public void listarElementosInverso() {
-        listarElementosInversoRecursivo(top);
+        System.out.println(elementosInversoRecursivo(top));
     }
 
-    private void listarElementosInversoRecursivo(Nodo nodo) {
+    private String elementosInversoRecursivo(Nodo nodo) {
+        String elementos = "";
         if (nodo != null) {
-            listarElementosInversoRecursivo(nodo.ant);
-            System.out.println(nodo.dato);
+            elementos += elementosInversoRecursivo(nodo.ant) + nodo.dato + " ";
         }
+        return elementos;
     }
 
     private boolean esVacia() {
@@ -66,7 +71,7 @@ public class PilaImp implements IPila {
 
         pilaImp.listarElementos();
 
-        pilaImp.eliminarElemnto();
+        System.out.println("Elemento eliminado: " + pilaImp.eliminarElemnto().dato);
 
         pilaImp.listarElementos();
 
