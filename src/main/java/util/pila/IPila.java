@@ -1,9 +1,9 @@
 package util.pila;
 
 public interface IPila {
-    void insertarElemento(Nodo nodo);
+    void insertarElemento(NodoPila nodoPila);
 
-    Nodo eliminarElemnto();
+    NodoPila eliminarElemnto();
 
     void listarElementos();
 
