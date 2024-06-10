@@ -13,11 +13,10 @@ public class ColaImp implements ICola {
     public void insertarElemento(NodoCola nodoCola) {
         if (inicio == null) {
             inicio = nodoCola;
-            fin = nodoCola;
         } else {
             fin.sig = nodoCola;
-            fin = nodoCola;
         }
+        fin = nodoCola;
     }
 
     @Override
@@ -43,7 +42,7 @@ public class ColaImp implements ICola {
             elementos.append(temp.dato).append(" ");
             temp = temp.sig;
         }
-        System.out.println(elementos.toString());
+        System.out.println(elementos);
     }
 
     @Override
@@ -54,7 +53,7 @@ public class ColaImp implements ICola {
     private String elementosInversoRecursivo(NodoCola nodoCola) {
         String elementos = "";
         if (nodoCola != null) {
-            elementos = elementosInversoRecursivo(nodoCola.sig) + nodoCola.dato + " ";
+            elementos = STR."\{elementosInversoRecursivo(nodoCola.sig)}\{nodoCola.dato} ";
         }
         return elementos;
     }
@@ -73,7 +72,7 @@ public class ColaImp implements ICola {
 
         cola.listarElementos();
 
-        System.out.println("Elemento eliminado: " + cola.eliminarElemnto().dato);
+        System.out.println(STR."Elemento eliminado: \{cola.eliminarElemnto().dato}");
 
         cola.listarElementos();
 
