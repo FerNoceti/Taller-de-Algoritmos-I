@@ -13,12 +13,18 @@ public class ListaImp<T> implements ILista<T> {
         if (esVacio())
             this.primero = this.ultimo = nodoLista;
         else {
+            if (nodoLista.dato < this.primero.dato) {
+                nodoLista.sig = this.primero;
+                this.primero =nodoLista;
+            } // TODO else if ()
         }
     }
 
     @Override
     public NodoLista<T> eliminarNodo(NodoLista<T> nodoLista) {
-        return null;
+        if (esVacio())
+            return new NodoLista<>();
+        if (this.primero == nodoLista)
     }
 
     @Override
