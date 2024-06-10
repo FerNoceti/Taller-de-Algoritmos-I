@@ -1,8 +1,8 @@
 package util.cola;
 
-public class ColaImp implements ICola {
-    private NodoCola inicio;
-    private NodoCola fin;
+public class ColaImp<T> implements ICola<T> {
+    private NodoCola<T> inicio;
+    private NodoCola<T> fin;
 
     public ColaImp() {
         this.inicio = null;
@@ -10,7 +10,7 @@ public class ColaImp implements ICola {
     }
 
     @Override
-    public void insertarElemento(NodoCola nodoCola) {
+    public void insertarElemento(NodoCola<T> nodoCola) {
         if (inicio == null) {
             inicio = nodoCola;
         } else {
@@ -20,8 +20,8 @@ public class ColaImp implements ICola {
     }
 
     @Override
-    public NodoCola eliminarElemnto() {
-        NodoCola nodoColaEliminado = null;
+    public NodoCola<T> eliminarElemnto() {
+        NodoCola<T> nodoColaEliminado = null;
         if (inicio == null) {
             System.out.println("La cola esta vacia");
         } else {
@@ -37,7 +37,7 @@ public class ColaImp implements ICola {
     @Override
     public void listarElementos() {
         StringBuilder elementos = new StringBuilder();
-        NodoCola temp = inicio;
+        NodoCola<T> temp = inicio;
         while (temp != null) {
             elementos.append(temp.dato).append(" ");
             temp = temp.sig;
@@ -50,7 +50,7 @@ public class ColaImp implements ICola {
         System.out.println(elementosInversoRecursivo(inicio));
     }
 
-    private String elementosInversoRecursivo(NodoCola nodoCola) {
+    private String elementosInversoRecursivo(NodoCola<T> nodoCola) {
         String elementos = "";
         if (nodoCola != null) {
             elementos = STR."\{elementosInversoRecursivo(nodoCola.sig)}\{nodoCola.dato} ";
@@ -64,11 +64,11 @@ public class ColaImp implements ICola {
 
     public static void main(String[] args) {
         ColaImp cola = new ColaImp();
-        cola.insertarElemento(new NodoCola(1));
-        cola.insertarElemento(new NodoCola(2));
-        cola.insertarElemento(new NodoCola(3));
-        cola.insertarElemento(new NodoCola(4));
-        cola.insertarElemento(new NodoCola(5));
+        cola.insertarElemento(new NodoCola<Integer>(1));
+        cola.insertarElemento(new NodoCola<Integer>(2));
+        cola.insertarElemento(new NodoCola<Integer>(3));
+        cola.insertarElemento(new NodoCola<Integer>(4));
+        cola.insertarElemento(new NodoCola<Integer>(5));
 
         cola.listarElementos();
 

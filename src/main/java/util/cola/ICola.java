@@ -1,9 +1,9 @@
 package util.cola;
 
-public interface ICola {
-    void insertarElemento(NodoCola nodoCola);
+public interface ICola<T> {
+    void insertarElemento(NodoCola<T> nodoCola);
 
-    NodoCola eliminarElemnto();
+    NodoCola<T> eliminarElemnto();
 
     void listarElementos();
 
