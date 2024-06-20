@@ -10,28 +10,28 @@ public class ColaImp<T> implements ICola<T> {
     }
 
     @Override
-    public void insertarElemento(NodoCola<T> nodoCola) {
+    public void insertarElemento(NodoCola<T> nuevoNodo) {
         if (inicio == null) {
-            inicio = nodoCola;
+            inicio = nuevoNodo;
         } else {
-            fin.sig = nodoCola;
+            fin.siguienteNodo = nuevoNodo;
         }
-        fin = nodoCola;
+        fin = nuevoNodo;
     }
 
     @Override
-    public NodoCola<T> eliminarElemnto() {
-        NodoCola<T> nodoColaEliminado = null;
+    public NodoCola<T> eliminarElemento() {
+        NodoCola<T> nodoEliminado = null;
         if (inicio == null) {
-            System.out.println("La cola esta vacia");
+            System.out.println("La cola está vacía");
         } else {
-            nodoColaEliminado = inicio;
-            inicio = inicio.sig;
+            nodoEliminado = inicio;
+            inicio = inicio.siguienteNodo;
             if (inicio == null) {
                 fin = null;
             }
         }
-        return nodoColaEliminado;
+        return nodoEliminado;
     }
 
     @Override
@@ -40,42 +40,25 @@ public class ColaImp<T> implements ICola<T> {
         NodoCola<T> temp = inicio;
         while (temp != null) {
             elementos.append(temp.dato).append(" ");
-            temp = temp.sig;
+            temp = temp.siguienteNodo;
         }
         System.out.println(elementos);
     }
 
     @Override
     public void listarElementosInverso() {
-        System.out.println(elementosInversoRecursivo(inicio));
+        System.out.println(listarElementosInversoRecursivo(inicio));
     }
 
-    private String elementosInversoRecursivo(NodoCola<T> nodoCola) {
-        String elementos = "";
-        if (nodoCola != null) {
-            elementos = STR."\{elementosInversoRecursivo(nodoCola.sig)}\{nodoCola.dato} ";
+    private String listarElementosInversoRecursivo(NodoCola<T> nodo) {
+        if (nodo == null) {
+            return "";
         }
-        return elementos;
+        return listarElementosInversoRecursivo(nodo.siguienteNodo) + nodo.dato + " ";
     }
 
-    private boolean esVacia() {
+    private boolean estaVacia() {
         return this.inicio == null;
     }
 
-    public static void main(String[] args) {
-        ColaImp cola = new ColaImp();
-        cola.insertarElemento(new NodoCola<Integer>(1));
-        cola.insertarElemento(new NodoCola<Integer>(2));
-        cola.insertarElemento(new NodoCola<Integer>(3));
-        cola.insertarElemento(new NodoCola<Integer>(4));
-        cola.insertarElemento(new NodoCola<Integer>(5));
-
-        cola.listarElementos();
-
-        System.out.println(STR."Elemento eliminado: \{cola.eliminarElemnto().dato}");
-
-        cola.listarElementos();
-
-        cola.listarElementosInverso();
-    }
 }
