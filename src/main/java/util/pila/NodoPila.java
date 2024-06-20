@@ -1,12 +1,11 @@
 package util.pila;
 
-public class NodoPila {
-    public int dato;
-    public NodoPila ant;
+public class NodoPila<T> {
+    public T dato;
+    public NodoPila<T> nodoAnterior;
 
-    public NodoPila(int value) {
-        super();
-        this.dato = value;
-        this.ant = null;
+    public NodoPila(T dato) {
+        this.dato = dato;
+        this.nodoAnterior = null;
     }
 }

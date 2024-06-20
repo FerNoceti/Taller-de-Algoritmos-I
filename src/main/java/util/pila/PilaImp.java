@@ -1,80 +1,59 @@
 package util.pila;
 
-public class PilaImp implements IPila {
-
-    NodoPila top;
+public class PilaImp<T> implements IPila<T> {
+    private NodoPila<T> cima;
 
     public PilaImp() {
-        this.top = null;
+        this.cima = null;
     }
 
     @Override
-    public void insertarElemento(NodoPila nodoPila) {
-        if (esVacia()) {
-            this.top = nodoPila;
+    public void insertarElemento(NodoPila<T> nuevoNodo) {
+        if (estaVacia()) {
+            this.cima = nuevoNodo;
         } else {
-            nodoPila.ant = top;
-            this.top = nodoPila;
+            nuevoNodo.nodoAnterior = cima;
+            this.cima = nuevoNodo;
         }
     }
 
     @Override
-    public NodoPila eliminarElemnto() {
-        NodoPila nodoPilaEliminado = null;
-
-        if (esVacia()) {
-            System.out.println("No se puede eliminar");
+    public NodoPila<T> eliminarElemento() {
+        NodoPila<T> nodoEliminado = null;
+        if (estaVacia()) {
+            System.out.println("No se puede eliminar, la pila está vacía");
         } else {
-            nodoPilaEliminado = this.top;
-            this.top = nodoPilaEliminado.ant;
+            nodoEliminado = this.cima;
+            this.cima = nodoEliminado.nodoAnterior;
         }
-        return nodoPilaEliminado;
+        return nodoEliminado;
     }
 
     @Override
     public void listarElementos() {
-        String elementos = "";
-
-        NodoPila temp = top;
+        StringBuilder elementos = new StringBuilder();
+        NodoPila<T> temp = cima;
         while (temp != null) {
-            elementos += temp.dato + " ";
-            temp = temp.ant;
+            elementos.append(temp.dato).append(" ");
+            temp = temp.nodoAnterior;
         }
-
         System.out.println(elementos);
     }
 
     @Override
     public void listarElementosInverso() {
-        System.out.println(elementosInversoRecursivo(top));
+        System.out.println(elementosInversoRecursivo(cima));
     }
 
-    private String elementosInversoRecursivo(NodoPila nodoPila) {
-        String elementos = "";
-        if (nodoPila != null) {
-            elementos += elementosInversoRecursivo(nodoPila.ant) + nodoPila.dato + " ";
+    private String elementosInversoRecursivo(NodoPila<T> nodo) {
+        if (nodo == null) {
+            return "";
         }
-        return elementos;
+        return elementosInversoRecursivo(nodo.nodoAnterior) + nodo.dato + " ";
     }
 
-    private boolean esVacia() {
-        return this.top == null;
-    }
-
-    public static void main(String[] args) {
-        PilaImp pilaImp = new PilaImp();
-
-        pilaImp.insertarElemento(new NodoPila(2));
-        pilaImp.insertarElemento(new NodoPila(5));
-        pilaImp.insertarElemento(new NodoPila(7));
-        pilaImp.insertarElemento(new NodoPila(9));
-
-        pilaImp.listarElementos();
-
-        System.out.println("Elemento eliminado: " + pilaImp.eliminarElemnto().dato);
-
-        pilaImp.listarElementos();
-
-        pilaImp.listarElementosInverso();
+    @Override
+    public boolean estaVacia() {
+        return this.cima == null;
     }
 }

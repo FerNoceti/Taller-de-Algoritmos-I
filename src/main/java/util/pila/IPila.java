@@ -1,11 +1,13 @@
 package util.pila;
 
-public interface IPila {
-    void insertarElemento(NodoPila nodoPila);
+public interface IPila<T> {
+    void insertarElemento(NodoPila<T> nuevoNodo);
 
-    NodoPila eliminarElemnto();
+    NodoPila<T> eliminarElemento();
 
     void listarElementos();
 
     void listarElementosInverso();
+
+    boolean estaVacia();
 }
