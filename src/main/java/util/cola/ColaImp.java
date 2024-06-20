@@ -57,7 +57,8 @@ public class ColaImp<T> implements ICola<T> {
         return listarElementosInversoRecursivo(nodo.siguienteNodo) + nodo.dato + " ";
     }
 
-    private boolean estaVacia() {
+    @Override
+    public boolean estaVacia() {
         return this.inicio == null;
     }
 

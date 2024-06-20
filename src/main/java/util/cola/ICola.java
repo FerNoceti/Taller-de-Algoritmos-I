@@ -8,4 +8,6 @@ public interface ICola<T> {
     void listarElementos();
 
     void listarElementosInverso();
+
+    boolean estaVacia();
 }
