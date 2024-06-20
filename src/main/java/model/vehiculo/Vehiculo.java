@@ -1,4 +1,4 @@
-package modelo.vehiculo;
+package model.vehiculo;
 
 public abstract class Vehiculo {//implements IAbmVehiculo {
 

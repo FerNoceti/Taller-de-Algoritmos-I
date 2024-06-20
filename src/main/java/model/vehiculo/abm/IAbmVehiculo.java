@@ -1,6 +1,6 @@
-package modelo.vehiculo.abm;
+package model.vehiculo.abm;
 
-import modelo.vehiculo.Vehiculo;
+import model.vehiculo.Vehiculo;
 
 public interface IAbmVehiculo {
 

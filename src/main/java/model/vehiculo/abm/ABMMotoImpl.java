@@ -1,8 +1,8 @@
-package modelo.vehiculo.abm;
+package model.vehiculo.abm;
 
-import modelo.vehiculo.Moto;
-import modelo.vehiculo.Vehiculo;
-import repositorio.RepositorioDatos;
+import model.vehiculo.Moto;
+import model.vehiculo.Vehiculo;
+import repository.RepositorioDatos;
 
 public class ABMMotoImpl implements IAbmVehiculo {
 

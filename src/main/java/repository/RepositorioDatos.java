@@ -1,6 +1,6 @@
-package repositorio;
+package repository;
 
-import modelo.vehiculo.Vehiculo;
+import model.vehiculo.Vehiculo;
 
 public abstract class RepositorioDatos {
 

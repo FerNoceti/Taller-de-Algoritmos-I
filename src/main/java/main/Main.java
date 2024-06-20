@@ -1,9 +1,9 @@
-package principal;
+package main;
 
-import modelo.vehiculo.Auto;
-import modelo.vehiculo.Moto;
-import modelo.vehiculo.abm.ABMAutoImpl;
-import modelo.vehiculo.abm.ABMMotoImpl;
+import model.vehiculo.Auto;
+import model.vehiculo.Moto;
+import model.vehiculo.abm.ABMAutoImpl;
+import model.vehiculo.abm.ABMMotoImpl;
 
 public class Main {
 

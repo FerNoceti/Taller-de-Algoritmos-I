@@ -1,8 +1,8 @@
-package modelo.vehiculo.abm;
+package model.vehiculo.abm;
 
-import modelo.vehiculo.Auto;
-import modelo.vehiculo.Vehiculo;
-import repositorio.RepositorioDatos;
+import model.vehiculo.Auto;
+import model.vehiculo.Vehiculo;
+import repository.RepositorioDatos;
 
 public class ABMAutoImpl implements IAbmVehiculo {
 
