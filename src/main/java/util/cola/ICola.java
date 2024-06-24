@@ -12,10 +12,10 @@ public interface ICola<T> {
 
     /**
      * Elimina y devuelve el elemento al frente de la cola.
-     * @return NodoCola que representa el elemento eliminado.
+     * @return Elemento eliminado.
      * @throws NoSuchElementException Si la cola está vacía.
      */
-    NodoCola<T> eliminarElemento();
+    T eliminarElemento();
 
     /**
      * Lista todos los elementos de la cola en el orden en que fueron agregados.

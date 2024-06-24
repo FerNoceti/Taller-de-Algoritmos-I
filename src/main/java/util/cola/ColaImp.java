@@ -21,7 +21,7 @@ public class ColaImp<T> implements ICola<T> {
     }
 
     @Override
-    public NodoCola<T> eliminarElemento() {
+    public T eliminarElemento() {
         NodoCola<T> nodoEliminado = null;
         if (inicio == null) {
             System.out.println("La cola está vacía");
@@ -32,7 +32,7 @@ public class ColaImp<T> implements ICola<T> {
                 fin = null;
             }
         }
-        return nodoEliminado;
+        return nodoEliminado.dato;
     }
 
     @Override
