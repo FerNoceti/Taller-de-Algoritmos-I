@@ -10,7 +10,8 @@ public class ColaImp<T> implements ICola<T> {
     }
 
     @Override
-    public void insertarElemento(NodoCola<T> nuevoNodo) {
+    public void insertarElemento(T elemento) {
+        NodoCola<T> nuevoNodo = new NodoCola<>(elemento);
         if (inicio == null) {
             inicio = nuevoNodo;
         } else {
@@ -35,19 +36,25 @@ public class ColaImp<T> implements ICola<T> {
     }
 
     @Override
-    public void listarElementos() {
+    public String listaDeElementos() {
         StringBuilder elementos = new StringBuilder();
         NodoCola<T> temp = inicio;
+        int indice = 0;
         while (temp != null) {
-            elementos.append(temp.dato).append(" ");
+            elementos.append(indice).append(":\n").append(temp.dato);
+            if (temp.siguienteNodo != null) {
+                elementos.append("\n");
+            }
             temp = temp.siguienteNodo;
+            indice++;
         }
-        System.out.println(elementos);
+        return elementos.toString();
     }
 
+
     @Override
-    public void listarElementosInverso() {
-        System.out.println(listarElementosInversoRecursivo(inicio));
+    public String listarElementosInverso() {
+        return listarElementosInversoRecursivo(inicio);
     }
 
     private String listarElementosInversoRecursivo(NodoCola<T> nodo) {

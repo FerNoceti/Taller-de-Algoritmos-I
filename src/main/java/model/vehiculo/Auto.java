@@ -7,7 +7,7 @@ public class Auto extends Vehiculo {
     public static final String ELECTRICO = "electrico";
 
     private int cantPuerta;
-    private String tipoConbustible;
+    private String tipoCombustible;
     private String marca;
     private String patente;
 
@@ -16,10 +16,10 @@ public class Auto extends Vehiculo {
     }
 
     public Auto(String modelo, String color, double precio, float kilometro, boolean usado, int cantPuerta,
-                String tipoConbustible, String marca, String patente) {
+                String tipoCombustible, String marca, String patente) {
         super(modelo, color, precio, kilometro, usado);
         this.cantPuerta = cantPuerta;
-        this.tipoConbustible = tipoConbustible;
+        this.tipoCombustible = tipoCombustible;
         this.marca = marca;
         this.patente = patente;
     }
@@ -32,12 +32,12 @@ public class Auto extends Vehiculo {
         this.cantPuerta = cantPuerta;
     }
 
-    public String getTipoConbustible() {
-        return tipoConbustible;
+    public String getTipoCombustible() {
+        return tipoCombustible;
     }
 
-    public void setTipoConbustible(String tipoConbustible) {
-        this.tipoConbustible = tipoConbustible;
+    public void setTipoCombustible(String tipoCombustible) {
+        this.tipoCombustible = tipoCombustible;
     }
 
     public String getMarca() {
@@ -56,7 +56,6 @@ public class Auto extends Vehiculo {
         this.patente = patente;
     }
 
-    // En esta seccions emuestra como hacer metodos y funciones en una clase concreta
     public boolean cargarAuto(Auto auto) {
         return false;
     }
@@ -67,6 +66,19 @@ public class Auto extends Vehiculo {
 
     public void eliminarAuto(Auto auto) {
 
+    }
+
+    //To String
+    @Override
+    public String toString() {
+        return "Modelo: " + getModelo() + "\n" +
+                "Marca: " + getMarca() + "\n" +
+                "Combustible: " + getTipoCombustible() + "\n" +
+                "Color: " + getColor() + "\n" +
+                "Cant. Puertas: " + getCantPuerta() + "\n" +
+                "Kilómetros: " + getKilometro() + "\n" +
+                "Precio: " + getPrecio() + "\n" +
+                "Patente: " + getPatente() + "\n";
     }
 
 }

@@ -63,7 +63,7 @@ public class ABMAutoImpl implements IAbmVehiculo {
                 if (auto != null) {
                     System.out.println("Modelo: " + auto.getModelo());
                     System.out.println("Marca: " + auto.getMarca());
-                    System.out.println("Combustible: " + auto.getTipoConbustible());
+                    System.out.println("Combustible: " + auto.getTipoCombustible());
                     System.out.println("Color: " + auto.getColor());
                     System.out.println("Cant. Puertas: " + auto.getCantPuerta());
                     System.out.println("Kilómetros: " + auto.getKilometro());
@@ -79,7 +79,7 @@ public class ABMAutoImpl implements IAbmVehiculo {
         if (auto == null) {
             return false;
         }
-        return !auto.getMarca().isEmpty() && !auto.getModelo().isEmpty() && !auto.getTipoConbustible().isEmpty() && auto.getCantPuerta() != 0;
+        return !auto.getMarca().isEmpty() && !auto.getModelo().isEmpty() && !auto.getTipoCombustible().isEmpty() && auto.getCantPuerta() != 0;
     }
 
     private int existeAuto(Auto auto) {
