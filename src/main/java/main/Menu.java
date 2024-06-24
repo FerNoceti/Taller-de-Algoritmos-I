@@ -198,7 +198,11 @@ public class Menu {
 
     //Opcion 6
     private void listarVehiculos() {
-        System.out.println("Vehiculos en la cola:\n\n" + colaVehiculos.listaDeElementos());
+        if (colaVehiculos.estaVacia()) {
+            System.out.println("No hay vehiculos cargados");
+        } else {
+            System.out.println("Vehiculos en la cola:\n\n" + colaVehiculos.listaDeElementos());
+        }
     }
 
     private void guardarEstadoEnPila(PilaImp<ColaImp<Vehiculo>> pila) {
