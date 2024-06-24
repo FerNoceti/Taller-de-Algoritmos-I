@@ -20,10 +20,10 @@ public class Menu {
     }
 
     public void displayMenu() {
-        String menuOptions = "1. Cargar auto\n2. Cargar moto\n3. Eliminar auto\n4. Eliminar moto\n5. Deshacer\n6. Rehacer\n7. Listar autos\n8. Listar motos\n9. Listar vehiculos\n10. Salir";
+        String menuOptions = "1. Cargar auto\n2. Cargar moto\n3. Eliminar vehiculo\n4. Deshacer\n5. Rehacer\n6. Listar vehiculos\n7. Salir";
         int opcion = 0;
 
-        while (opcion != 10) {
+        while (opcion != 7) {
             System.out.println(menuOptions);
             System.out.print("Ingrese una opcion: ");
             opcion = scanner.nextInt();
@@ -43,27 +43,18 @@ public class Menu {
                 cargarMotoAleatoria();
                 break;
             case 3:
-                //eliminarAuto();
+                eliminarVehiculo();
                 break;
             case 4:
-                //eliminarMoto();
+                deshacer();
                 break;
             case 5:
-                //deshacer();
+                rehacer();
                 break;
             case 6:
-                //rehacer();
-                break;
-            case 7:
-                //listarAutos();
-                break;
-            case 8:
-                //listarMotos();
-                break;
-            case 9:
                 listarVehiculos();
                 break;
-            case 10:
+            case 7:
                 System.out.println("Programa finalizado");
                 break;
             default:
@@ -73,8 +64,8 @@ public class Menu {
     }
 
     private ColaImp<Vehiculo> colaVehiculos = new ColaImp<>();
-    private PilaImp<Vehiculo> pilaDeshacer = new PilaImp<>();
-    private PilaImp<Vehiculo> pilaRehacer = new PilaImp<>();
+    private PilaImp<ColaImp<Vehiculo>> pilaDeshacer = new PilaImp<>();
+    private PilaImp<ColaImp<Vehiculo>> pilaRehacer = new PilaImp<>();
 
     //Opcion 1
     private void cargarAuto() {
@@ -99,7 +90,9 @@ public class Menu {
 
         Auto auto = new Auto(modelo, color, precio, kilometro, usado, cantPuerta, tipoCombustible, marca, patente);
 
+        guardarEstadoEnPila(pilaDeshacer);
         colaVehiculos.insertarElemento(auto);
+        pilaRehacer.vaciar();
     }
 
     private void cargarAutoAleatorio() {
@@ -133,7 +126,9 @@ public class Menu {
         auto.setMarca(marca);
         auto.setPatente(patente);
 
+        guardarEstadoEnPila(pilaDeshacer);
         colaVehiculos.insertarElemento(auto);
+        pilaRehacer.vaciar();
     }
 
     //Opcion 2
@@ -161,12 +156,53 @@ public class Menu {
 
         Moto moto = new Moto(modelo, color, precio, kilometro, usado, cilindrada, marca, patente);
 
+        guardarEstadoEnPila(pilaDeshacer);
         colaVehiculos.insertarElemento(moto);
+        pilaRehacer.vaciar();
     }
 
+    // Opcion 3
 
-    //Opcion 9
+    private void eliminarVehiculo() {
+        guardarEstadoEnPila(pilaDeshacer);
+        Vehiculo vehiculoEliminado = colaVehiculos.eliminarElemento();
+        if (vehiculoEliminado != null) {
+            System.out.println("Vehiculo eliminado: " + vehiculoEliminado);
+        }
+        pilaRehacer.vaciar();
+    }
+
+    //Opcion 4
+    private void deshacer() {
+        if (!pilaDeshacer.estaVacia()) {
+            guardarEstadoEnPila(pilaRehacer);
+            ColaImp<Vehiculo> estadoAnterior = pilaDeshacer.eliminarElemento();
+            colaVehiculos = estadoAnterior;
+            System.out.println("Accion deshecha");
+        } else {
+            System.out.println("No hay acciones para deshacer");
+        }
+    }
+
+    //Opcion 5
+    private void rehacer() {
+        if (!pilaRehacer.estaVacia()) {
+            guardarEstadoEnPila(pilaDeshacer);
+            ColaImp<Vehiculo> estadoAnterior = pilaRehacer.eliminarElemento();
+            colaVehiculos = estadoAnterior;
+            System.out.println("Accion rehecha");
+        } else {
+            System.out.println("No hay acciones para rehacer");
+        }
+    }
+
+    //Opcion 6
     private void listarVehiculos() {
         System.out.println("Vehiculos en la cola:\n\n" + colaVehiculos.listaDeElementos());
+    }
+
+    private void guardarEstadoEnPila(PilaImp<ColaImp<Vehiculo>> pila) {
+        ColaImp<Vehiculo> estadoActual = new ColaImp<>(colaVehiculos);
+        pila.insertarElemento(estadoActual);
     }
 }
