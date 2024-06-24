@@ -68,17 +68,19 @@ public class Auto extends Vehiculo {
 
     }
 
-    //To String
+    // toString
     @Override
     public String toString() {
-        return "Modelo: " + getModelo() + "\n" +
-                "Marca: " + getMarca() + "\n" +
-                "Combustible: " + getTipoCombustible() + "\n" +
-                "Color: " + getColor() + "\n" +
-                "Cant. Puertas: " + getCantPuerta() + "\n" +
-                "Kilómetros: " + getKilometro() + "\n" +
-                "Precio: " + getPrecio() + "\n" +
-                "Patente: " + getPatente() + "\n";
+        return "Auto {\n" +
+                "  Modelo: " + getModelo() + "\n" +
+                "  Marca: " + getMarca() + "\n" +
+                "  Combustible: " + getTipoCombustible() + "\n" +
+                "  Color: " + getColor() + "\n" +
+                "  Cant. Puertas: " + getCantPuerta() + "\n" +
+                "  Kilómetros: " + getKilometro() + "\n" +
+                "  Precio: " + getPrecio() + "\n" +
+                "  Patente: " + getPatente() + "\n" +
+                "}";
     }
 
 }
