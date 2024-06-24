@@ -133,7 +133,28 @@ public class Menu {
 
     //Opcion 2
     private void cargarMoto() {
-        //TODO
+        System.out.println("Ingrese el modelo: ");
+        String modelo = scanner.next();
+        System.out.println("Ingrese el color: ");
+        String color = scanner.next();
+        System.out.println("Ingrese el precio: ");
+        double precio = scanner.nextDouble();
+        System.out.println("Ingrese el kilometraje: ");
+        float kilometro = scanner.nextFloat();
+        System.out.println("¿Es usado? (true/false): ");
+        boolean usado = scanner.nextBoolean();
+        System.out.println("Ingrese la cilindrada: ");
+        int cilindrada = scanner.nextInt();
+        System.out.println("Ingrese la marca: ");
+        String marca = scanner.next();
+        System.out.println("Ingrese la patente: ");
+        String patente = scanner.next();
+
+        Moto moto = new Moto(modelo, color, precio, kilometro, usado, cilindrada, marca, patente);
+
+        guardarEstadoEnPila(pilaDeshacer);
+        colaVehiculos.insertarElemento(moto);
+        pilaRehacer.vaciar();
     }
 
     private void cargarMotoAleatoria() {
