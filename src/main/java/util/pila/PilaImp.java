@@ -8,7 +8,8 @@ public class PilaImp<T> implements IPila<T> {
     }
 
     @Override
-    public void insertarElemento(NodoPila<T> nuevoNodo) {
+    public void insertarElemento(T elemento) {
+        NodoPila<T> nuevoNodo = new NodoPila<>(elemento);
         if (estaVacia()) {
             this.cima = nuevoNodo;
         } else {
@@ -18,31 +19,29 @@ public class PilaImp<T> implements IPila<T> {
     }
 
     @Override
-    public NodoPila<T> eliminarElemento() {
-        NodoPila<T> nodoEliminado = null;
+    public T eliminarElemento() {
         if (estaVacia()) {
-            System.out.println("No se puede eliminar, la pila está vacía");
-        } else {
-            nodoEliminado = this.cima;
-            this.cima = nodoEliminado.nodoAnterior;
+            throw new RuntimeException("No se puede eliminar, la pila está vacía");
         }
-        return nodoEliminado;
+        NodoPila<T> nodoEliminado = this.cima;
+        this.cima = nodoEliminado.nodoAnterior;
+        return nodoEliminado.dato;
     }
 
     @Override
-    public void listarElementos() {
+    public String listaDeElementos() {
         StringBuilder elementos = new StringBuilder();
         NodoPila<T> temp = cima;
         while (temp != null) {
             elementos.append(temp.dato).append(" ");
             temp = temp.nodoAnterior;
         }
-        System.out.println(elementos);
+        return elementos.toString();
     }
 
     @Override
-    public void listarElementosInverso() {
-        System.out.println(elementosInversoRecursivo(cima));
+    public String listaDeElementosInverso() {
+        return elementosInversoRecursivo(cima);
     }
 
     private String elementosInversoRecursivo(NodoPila<T> nodo) {
@@ -50,6 +49,11 @@ public class PilaImp<T> implements IPila<T> {
             return "";
         }
         return elementosInversoRecursivo(nodo.nodoAnterior) + nodo.dato + " ";
+    }
+
+    @Override
+    public void vaciar() {
+        this.cima = null;
     }
 
     @Override
