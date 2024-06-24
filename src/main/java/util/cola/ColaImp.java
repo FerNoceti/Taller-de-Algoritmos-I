@@ -9,6 +9,23 @@ public class ColaImp<T> implements ICola<T> {
         this.fin = null;
     }
 
+    public ColaImp(ColaImp<T> otra) {
+        if (otra.inicio != null) {
+            this.inicio = new NodoCola<>(otra.inicio.dato);
+            NodoCola<T> actual = this.inicio;
+            NodoCola<T> otroActual = otra.inicio.siguienteNodo;
+            while (otroActual != null) {
+                actual.siguienteNodo = new NodoCola<>(otroActual.dato);
+                actual = actual.siguienteNodo;
+                otroActual = otroActual.siguienteNodo;
+            }
+            this.fin = actual;
+        } else {
+            this.inicio = null;
+            this.fin = null;
+        }
+    }
+
     @Override
     public void insertarElemento(T elemento) {
         NodoCola<T> nuevoNodo = new NodoCola<>(elemento);
@@ -51,7 +68,6 @@ public class ColaImp<T> implements ICola<T> {
         return elementos.toString();
     }
 
-
     @Override
     public String listarElementosInverso() {
         return listarElementosInversoRecursivo(inicio);
@@ -68,5 +84,4 @@ public class ColaImp<T> implements ICola<T> {
     public boolean estaVacia() {
         return this.inicio == null;
     }
-
 }
