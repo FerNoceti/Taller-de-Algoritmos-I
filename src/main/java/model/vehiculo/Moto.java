@@ -2,12 +2,12 @@ package model.vehiculo;
 
 public class Moto extends Vehiculo {
 
-    // Cilindradas de la moto
+    // Constantes de cilindrada de la moto
     public static final int BAJA = 200;
     public static final int MEDIA = 300;
     public static final int ALTA = 400;
 
-    // Atributos
+    // Atributos privados
     private int cilindrada;
     private String marca;
     private String patente;
@@ -25,6 +25,8 @@ public class Moto extends Vehiculo {
     }
 
     // Getters y Setters
+
+
     public int getCilindrada() {
         return cilindrada;
     }
@@ -49,4 +51,17 @@ public class Moto extends Vehiculo {
         this.patente = patente;
     }
 
+    // Método toString() sobreescrito
+    @Override
+    public String toString() {
+        return "Moto {" +
+                "\n  Modelo: " + getModelo() +
+                "\n  Marca: " + getMarca() +
+                "\n  Color: " + getColor() +
+                "\n  Cilindrada: " + getCilindrada() + " cc" +
+                "\n  Kilómetros: " + getKilometro() +
+                "\n  Precio: " + getPrecio() +
+                "\n  Patente: " + getPatente() +
+                "\n}";
+    }
 }

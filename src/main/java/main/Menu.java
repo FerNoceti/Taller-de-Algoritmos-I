@@ -40,6 +40,7 @@ public class Menu {
                 break;
             case 2:
                 //cargarMoto();
+                cargarMotoAleatoria();
                 break;
             case 3:
                 //eliminarAuto();
@@ -77,7 +78,6 @@ public class Menu {
 
     //Opcion 1
     private void cargarAuto() {
-        Auto auto = new Auto();
         System.out.println("Ingrese el modelo: ");
         String modelo = scanner.next();
         System.out.println("Ingrese el color: ");
@@ -97,15 +97,7 @@ public class Menu {
         System.out.println("Ingrese la patente: ");
         String patente = scanner.next();
 
-        auto.setModelo(modelo);
-        auto.setColor(color);
-        auto.setPrecio(precio);
-        auto.setKilometro(kilometro);
-        auto.setUsado(usado);
-        auto.setCantPuerta(cantPuerta);
-        auto.setTipoCombustible(tipoCombustible);
-        auto.setMarca(marca);
-        auto.setPatente(patente);
+        Auto auto = new Auto(modelo, color, precio, kilometro, usado, cantPuerta, tipoCombustible, marca, patente);
 
         colaVehiculos.insertarElemento(auto);
     }
@@ -149,9 +141,29 @@ public class Menu {
         //TODO
     }
 
-    private void cargarMotoAleatorio() {
+    private void cargarMotoAleatoria() {
+        String[] modelos = {"Modelo 1", "Modelo 2", "Modelo 3"};
+        String[] colores = {"Rojo", "Azul", "Negro"};
+        String[] marcas = {"Honda", "Yamaha", "Suzuki"};
+        String[] patentes = {"ABC123", "DEF456", "GHI789"};
 
+        String modelo = modelos[random.nextInt(modelos.length)];
+        String color = colores[random.nextInt(colores.length)];
+
+        double precio = 2000 + Math.round((50000 - 2000) * random.nextDouble()); // Precio entre 2000 y 50000
+
+        float kilometro = Math.round((50000 - 0) * random.nextFloat()); // Kilometraje entre 0 y 50000
+
+        boolean usado = random.nextBoolean();
+        int cilindrada = Moto.BAJA + random.nextInt((Moto.ALTA - Moto.BAJA) + 1); // Cilindrada entre BAJA y ALTA
+        String marca = marcas[random.nextInt(marcas.length)];
+        String patente = patentes[random.nextInt(patentes.length)];
+
+        Moto moto = new Moto(modelo, color, precio, kilometro, usado, cilindrada, marca, patente);
+
+        colaVehiculos.insertarElemento(moto);
     }
+
 
     //Opcion 9
     private void listarVehiculos() {
