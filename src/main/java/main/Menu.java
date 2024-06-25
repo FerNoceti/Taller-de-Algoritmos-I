@@ -96,7 +96,7 @@ public class Menu {
         abmAuto.cargarVehiculoImpl(auto);
     }
 
-    //Opcion 2
+    // Opcion 2
     private void cargarMotoAleatoria() {
         guardarEstadoEnPila(pilaDeshacer, clonarVehiculos(RepositorioDatos.vehiculos));
         pilaRehacer.vaciar();
@@ -126,9 +126,23 @@ public class Menu {
     private void eliminarVehiculoPorPosicion() {
         System.out.print("Ingrese la posición del vehículo a eliminar: ");
         int posicion = scanner.nextInt();
+
+        if (posicion < 0 || posicion >= RepositorioDatos.vehiculos.length) {
+            System.out.println("Posición inválida");
+            return;
+        }
+
         guardarEstadoEnPila(pilaDeshacer, clonarVehiculos(RepositorioDatos.vehiculos));
         pilaRehacer.vaciar();
-        abmAuto.eliminarVehiculoPorPosicionImpl(posicion);
+
+        Vehiculo vehiculoAEliminar = RepositorioDatos.vehiculos[posicion];
+        if (vehiculoAEliminar instanceof Auto) {
+            abmAuto.eliminarVehiculoPorPosicionImpl(posicion);
+        } else if (vehiculoAEliminar instanceof Moto) {
+            abmMoto.eliminarVehiculoPorPosicionImpl(posicion);
+        } else {
+            System.out.println("El tipo de vehículo no es soportado");
+        }
     }
 
     //Opcion 4
@@ -153,12 +167,12 @@ public class Menu {
 
     //Opcion 6
     private void listarAutos() {
-        abmAuto.mostrarVehiculoImpl();
+        System.out.println(abmAuto.listaDeVehiculos());
     }
 
     //Opcion 7
     private void listarMotos() {
-        // Implementación para listar motos
+        System.out.println(abmMoto.listaDeVehiculos());
     }
 
     private void guardarEstadoEnPila(PilaImp<Vehiculo[]> pila, Vehiculo[] estado) {

@@ -30,9 +30,4 @@ public interface IAbmVehiculo {
      */
     void eliminarVehiculoPorPosicionImpl(int posicion);
 
-    /**
-     * Muestra todos los vehículos del tipo específico del repositorio.
-     */
-    void mostrarVehiculoImpl();
-
 }

@@ -57,14 +57,7 @@ public abstract class AbstractABMVehiculo<T extends Vehiculo> implements IAbmVeh
         }
     }
 
-    @Override
-    public void mostrarVehiculoImpl() {
-        for (int i = 0; i < RepositorioDatos.indice; i++) {
-            if (RepositorioDatos.vehiculos[i] != null && RepositorioDatos.vehiculos[i].getClass().equals(getVehiculoClass())) {
-                System.out.println(RepositorioDatos.vehiculos[i]);
-            }
-        }
-    }
+    public abstract String listaDeVehiculos();
 
     protected abstract boolean validarVehiculo(T vehiculo);
 
