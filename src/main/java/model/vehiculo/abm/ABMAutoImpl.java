@@ -61,15 +61,7 @@ public class ABMAutoImpl implements IAbmVehiculo {
             if (RepositorioDatos.vehiculos[i] instanceof Auto) {
                 Auto auto = (Auto) RepositorioDatos.vehiculos[i];
                 if (auto != null) {
-                    System.out.println("Modelo: " + auto.getModelo());
-                    System.out.println("Marca: " + auto.getMarca());
-                    System.out.println("Combustible: " + auto.getTipoCombustible());
-                    System.out.println("Color: " + auto.getColor());
-                    System.out.println("Cant. Puertas: " + auto.getCantPuerta());
-                    System.out.println("Kilómetros: " + auto.getKilometro());
-                    System.out.println("Precio: " + auto.getPrecio());
-                    System.out.println("Patente: " + auto.getPatente());
-                    System.out.println();
+                    System.out.println(auto);
                 }
             }
         }

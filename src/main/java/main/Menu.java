@@ -3,7 +3,9 @@ package main;
 import model.vehiculo.Auto;
 import model.vehiculo.Moto;
 import model.vehiculo.Vehiculo;
-import util.cola.ColaImp;
+import model.vehiculo.abm.ABMAutoImpl;
+import model.vehiculo.abm.ABMMotoImpl;
+import repository.RepositorioDatos;
 import util.pila.PilaImp;
 
 import java.util.Scanner;
@@ -14,16 +16,23 @@ public class Menu {
     private Scanner scanner;
     private Random random;
 
+    private ABMAutoImpl abmAuto = new ABMAutoImpl();
+    private ABMMotoImpl abmMoto = new ABMMotoImpl();
+
+    private PilaImp<Vehiculo[]> pilaDeshacer = new PilaImp<>();
+    private PilaImp<Vehiculo[]> pilaRehacer = new PilaImp<>();
+
+
     public Menu(Scanner scanner) {
         this.scanner = scanner;
         this.random = new Random();
     }
 
     public void displayMenu() {
-        String menuOptions = "1. Cargar auto\n2. Cargar moto\n3. Eliminar vehiculo\n4. Deshacer\n5. Rehacer\n6. Listar vehiculos\n7. Salir";
+        String menuOptions = "1. Cargar auto\n2. Cargar moto\n3. Eliminar vehiculo\n4. Deshacer\n5. Rehacer\n6. Listar autos\n7. Listar motos\n8. Salir";
         int opcion = 0;
 
-        while (opcion != 7) {
+        while (opcion != 8) {
             System.out.println(menuOptions);
             System.out.print("Ingrese una opcion: ");
             opcion = scanner.nextInt();
@@ -52,9 +61,12 @@ public class Menu {
                 rehacer();
                 break;
             case 6:
-                listarVehiculos();
+                listarAutos();
                 break;
             case 7:
+                listarMotos();
+                break;
+            case 8:
                 System.out.println("Programa finalizado");
                 break;
             default:
@@ -63,40 +75,23 @@ public class Menu {
         }
     }
 
-    private ColaImp<Vehiculo> colaVehiculos = new ColaImp<>();
-    private PilaImp<ColaImp<Vehiculo>> pilaDeshacer = new PilaImp<>();
-    private PilaImp<ColaImp<Vehiculo>> pilaRehacer = new PilaImp<>();
-
-    //Opcion 1
-    private void cargarAuto() {
-        System.out.println("Ingrese el modelo: ");
-        String modelo = scanner.next();
-        System.out.println("Ingrese el color: ");
-        String color = scanner.next();
-        System.out.println("Ingrese el precio: ");
-        double precio = scanner.nextDouble();
-        System.out.println("Ingrese el kilometraje: ");
-        float kilometro = scanner.nextFloat();
-        System.out.println("¿Es usado? (true/false): ");
-        boolean usado = scanner.nextBoolean();
-        System.out.println("Ingrese la cantidad de puertas: ");
-        int cantPuerta = scanner.nextInt();
-        System.out.println("Ingrese el tipo de combustible: ");
-        String tipoCombustible = scanner.next();
-        System.out.println("Ingrese la marca: ");
-        String marca = scanner.next();
-        System.out.println("Ingrese la patente: ");
-        String patente = scanner.next();
-
-        Auto auto = new Auto(modelo, color, precio, kilometro, usado, cantPuerta, tipoCombustible, marca, patente);
-
-        guardarEstadoEnPila(pilaDeshacer);
-        colaVehiculos.insertarElemento(auto);
-        pilaRehacer.vaciar();
+    private void guardarEstadoEnPila(PilaImp<Vehiculo[]> pila, Vehiculo[] estado) {
+        pila.insertarElemento(estado.clone());
     }
 
+    private Vehiculo[] clonarVehiculos(Vehiculo[] vehiculos) {
+        Vehiculo[] clone = new Vehiculo[vehiculos.length];
+        for (int i = 0; i < vehiculos.length; i++) {
+            clone[i] = vehiculos[i];
+        }
+        return clone;
+    }
+
+    //Opcion 1
     private void cargarAutoAleatorio() {
-        Auto auto = new Auto();
+        guardarEstadoEnPila(pilaDeshacer, clonarVehiculos(RepositorioDatos.vehiculos));
+        pilaRehacer.vaciar();
+
         String[] modelos = {"Modelo 1", "Modelo 2", "Modelo 3"};
         String[] colores = {"Rojo", "Azul", "Negro"};
         String[] combustibles = {Auto.NAFTA, Auto.GASOIL, Auto.ELECTRICO};
@@ -107,57 +102,23 @@ public class Menu {
         String color = colores[random.nextInt(colores.length)];
 
         double precio = 5000 + Math.round((100000 - 5000) * random.nextDouble());
-
         float kilometro = Math.round((200000 - 0) * random.nextFloat());
-
         boolean usado = random.nextBoolean();
         int cantPuerta = 2 + random.nextInt(5 - 2 + 1);
         String tipoCombustible = combustibles[random.nextInt(combustibles.length)];
         String marca = marcas[random.nextInt(marcas.length)];
         String patente = patentes[random.nextInt(patentes.length)];
 
-        auto.setModelo(modelo);
-        auto.setColor(color);
-        auto.setPrecio(precio);
-        auto.setKilometro(kilometro);
-        auto.setUsado(usado);
-        auto.setCantPuerta(cantPuerta);
-        auto.setTipoCombustible(tipoCombustible);
-        auto.setMarca(marca);
-        auto.setPatente(patente);
+        Auto auto = new Auto(modelo, color, precio, kilometro, usado, cantPuerta, tipoCombustible, marca, patente);
 
-        guardarEstadoEnPila(pilaDeshacer);
-        colaVehiculos.insertarElemento(auto);
-        pilaRehacer.vaciar();
+        abmAuto.cargarVehiculoImpl(auto);
     }
 
     //Opcion 2
-    private void cargarMoto() {
-        System.out.println("Ingrese el modelo: ");
-        String modelo = scanner.next();
-        System.out.println("Ingrese el color: ");
-        String color = scanner.next();
-        System.out.println("Ingrese el precio: ");
-        double precio = scanner.nextDouble();
-        System.out.println("Ingrese el kilometraje: ");
-        float kilometro = scanner.nextFloat();
-        System.out.println("¿Es usado? (true/false): ");
-        boolean usado = scanner.nextBoolean();
-        System.out.println("Ingrese la cilindrada: ");
-        int cilindrada = scanner.nextInt();
-        System.out.println("Ingrese la marca: ");
-        String marca = scanner.next();
-        System.out.println("Ingrese la patente: ");
-        String patente = scanner.next();
-
-        Moto moto = new Moto(modelo, color, precio, kilometro, usado, cilindrada, marca, patente);
-
-        guardarEstadoEnPila(pilaDeshacer);
-        colaVehiculos.insertarElemento(moto);
-        pilaRehacer.vaciar();
-    }
-
     private void cargarMotoAleatoria() {
+        guardarEstadoEnPila(pilaDeshacer, clonarVehiculos(RepositorioDatos.vehiculos));
+        pilaRehacer.vaciar();
+
         String[] modelos = {"Modelo 1", "Modelo 2", "Modelo 3"};
         String[] colores = {"Rojo", "Azul", "Negro"};
         String[] marcas = {"Honda", "Yamaha", "Suzuki"};
@@ -166,68 +127,54 @@ public class Menu {
         String modelo = modelos[random.nextInt(modelos.length)];
         String color = colores[random.nextInt(colores.length)];
 
-        double precio = 2000 + Math.round((50000 - 2000) * random.nextDouble()); // Precio entre 2000 y 50000
-
-        float kilometro = Math.round((50000 - 0) * random.nextFloat()); // Kilometraje entre 0 y 50000
-
+        double precio = 2000 + Math.round((50000 - 2000) * random.nextDouble());
+        float kilometro = Math.round((50000 - 0) * random.nextFloat());
         boolean usado = random.nextBoolean();
-        int cilindrada = Moto.BAJA + random.nextInt((Moto.ALTA - Moto.BAJA) + 1); // Cilindrada entre BAJA y ALTA
+        int cilindrada = Moto.BAJA + random.nextInt((Moto.ALTA - Moto.BAJA) + 1);
+
         String marca = marcas[random.nextInt(marcas.length)];
         String patente = patentes[random.nextInt(patentes.length)];
 
         Moto moto = new Moto(modelo, color, precio, kilometro, usado, cilindrada, marca, patente);
 
-        guardarEstadoEnPila(pilaDeshacer);
-        colaVehiculos.insertarElemento(moto);
-        pilaRehacer.vaciar();
+        abmMoto.cargarVehiculoImpl(moto);
     }
 
     // Opcion 3
 
     private void eliminarVehiculo() {
-        guardarEstadoEnPila(pilaDeshacer);
-        Vehiculo vehiculoEliminado = colaVehiculos.eliminarElemento();
-        if (vehiculoEliminado != null) {
-            System.out.println("Vehiculo eliminado: " + vehiculoEliminado);
-        }
-        pilaRehacer.vaciar();
+        //ToDo
     }
 
     //Opcion 4
     private void deshacer() {
         if (!pilaDeshacer.estaVacia()) {
-            guardarEstadoEnPila(pilaRehacer);
-            ColaImp<Vehiculo> estadoAnterior = pilaDeshacer.eliminarElemento();
-            colaVehiculos = estadoAnterior;
-            System.out.println("Accion deshecha");
+            guardarEstadoEnPila(pilaRehacer, clonarVehiculos(RepositorioDatos.vehiculos));
+            RepositorioDatos.vehiculos = pilaDeshacer.eliminarElemento();
         } else {
-            System.out.println("No hay acciones para deshacer");
+            System.out.println("No hay operaciones para deshacer");
         }
     }
+
 
     //Opcion 5
     private void rehacer() {
         if (!pilaRehacer.estaVacia()) {
-            guardarEstadoEnPila(pilaDeshacer);
-            ColaImp<Vehiculo> estadoAnterior = pilaRehacer.eliminarElemento();
-            colaVehiculos = estadoAnterior;
-            System.out.println("Accion rehecha");
+            guardarEstadoEnPila(pilaDeshacer, clonarVehiculos(RepositorioDatos.vehiculos));
+            RepositorioDatos.vehiculos = pilaRehacer.eliminarElemento();
         } else {
-            System.out.println("No hay acciones para rehacer");
+            System.out.println("No hay operaciones para rehacer");
         }
     }
 
     //Opcion 6
-    private void listarVehiculos() {
-        if (colaVehiculos.estaVacia()) {
-            System.out.println("No hay vehiculos cargados");
-        } else {
-            System.out.println("Vehiculos en la cola:\n\n" + colaVehiculos.listaDeElementos());
-        }
+    private void listarAutos() {
+        abmAuto.mostrarVehiculoImpl();
     }
 
-    private void guardarEstadoEnPila(PilaImp<ColaImp<Vehiculo>> pila) {
-        ColaImp<Vehiculo> estadoActual = new ColaImp<>(colaVehiculos);
-        pila.insertarElemento(estadoActual);
+    //Opcion 7
+    private void listarMotos() {
+        abmMoto.mostrarVehiculoImpl();
     }
+
 }

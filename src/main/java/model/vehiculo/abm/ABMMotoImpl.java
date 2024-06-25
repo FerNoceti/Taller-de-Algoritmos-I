@@ -61,14 +61,7 @@ public class ABMMotoImpl implements IAbmVehiculo {
             if (RepositorioDatos.vehiculos[i] instanceof Moto) {
                 Moto moto = (Moto) RepositorioDatos.vehiculos[i];
                 if (moto != null) {
-                    System.out.println("Modelo: " + moto.getModelo());
-                    System.out.println("Marca: " + moto.getMarca());
-                    System.out.println("Cilindrada: " + moto.getCilindrada());
-                    System.out.println("Color: " + moto.getColor());
-                    System.out.println("Kilómetros: " + moto.getKilometro());
-                    System.out.println("Precio: " + moto.getPrecio());
-                    System.out.println("Patente: " + moto.getPatente());
-                    System.out.println();
+                    System.out.println(moto);
                 }
             }
         }
