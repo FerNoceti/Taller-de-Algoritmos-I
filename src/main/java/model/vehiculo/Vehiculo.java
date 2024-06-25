@@ -7,18 +7,20 @@ public abstract class Vehiculo {//implements IAbmVehiculo {
     private double precio;
     private float kilometro;
     private boolean usado;
+    private String patente;
 
     public Vehiculo() {
         super();
     }
 
-    public Vehiculo(String modelo, String color, double precio, float kilometro, boolean usado) {
+    public Vehiculo(String modelo, String color, double precio, float kilometro, boolean usado, String patente) {
         super();
         this.modelo = modelo;
         this.color = color;
         this.precio = precio;
         this.kilometro = kilometro;
         this.usado = usado;
+        this.patente = patente;
     }
 
     public String getModelo() {
@@ -61,4 +63,11 @@ public abstract class Vehiculo {//implements IAbmVehiculo {
         this.usado = usado;
     }
 
+    public String getPatente() {
+        return patente;
+    }
+
+    public void setPatente(String patente) {
+        this.patente = patente;
+    }
 }

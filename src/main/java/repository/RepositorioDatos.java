@@ -9,5 +9,4 @@ public abstract class RepositorioDatos {
     public static Vehiculo[] vehiculos = new Vehiculo[TAMANIO_ARREGLO];
 
     public static int indice = 0;
-
 }

@@ -9,8 +9,7 @@ public class Moto extends Vehiculo {
 
     // Atributos privados
     private int cilindrada;
-    private String marca;
-    private String patente;
+    private String marca;;
 
     // Constructores
     public Moto() {
@@ -18,10 +17,9 @@ public class Moto extends Vehiculo {
     }
 
     public Moto(String modelo, String color, double precio, float kilometro, boolean usado, int cilindrada, String marca, String patente) {
-        super(modelo, color, precio, kilometro, usado);
+        super(modelo, color, precio, kilometro, usado, patente);
         this.cilindrada = cilindrada;
         this.marca = marca;
-        this.patente = patente;
     }
 
     // Getters y Setters
@@ -41,14 +39,6 @@ public class Moto extends Vehiculo {
 
     public void setMarca(String marca) {
         this.marca = marca;
-    }
-
-    public String getPatente() {
-        return patente;
-    }
-
-    public void setPatente(String patente) {
-        this.patente = patente;
     }
 
     // Método toString() sobreescrito

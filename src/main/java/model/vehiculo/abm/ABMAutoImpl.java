@@ -1,88 +1,16 @@
 package model.vehiculo.abm;
 
 import model.vehiculo.Auto;
-import model.vehiculo.Vehiculo;
-import repository.RepositorioDatos;
 
-public class ABMAutoImpl implements IAbmVehiculo {
+public class ABMAutoImpl extends AbstractABMVehiculo<Auto> {
 
     @Override
-    public boolean cargarVehiculoImpl(Vehiculo vehiculo) {
-        if (RepositorioDatos.indice < RepositorioDatos.TAMANIO_ARREGLO) {
-            Auto auto = (Auto) vehiculo;
-            if (validarAuto(auto)) {
-                if (existeAuto(auto) == -1) {
-                    RepositorioDatos.vehiculos[RepositorioDatos.indice] = vehiculo;
-                    RepositorioDatos.indice++;
-                    return true;
-                } else {
-                    System.out.println("El auto ingresado ya existe");
-                }
-            } else {
-                System.out.println("Faltan cargar datos");
-            }
-        } else {
-            System.out.println("Se superó la capacidad del arreglo de vehículos");
-        }
-        return false;
+    protected boolean validarVehiculo(Auto auto) {
+        return auto != null && !auto.getMarca().isEmpty() && !auto.getModelo().isEmpty() && !auto.getPatente().isEmpty() && auto.getCantPuerta() != 0;
     }
 
     @Override
-    public boolean modificarVehiculoImpl(Vehiculo vehiculo) {
-        Auto auto = (Auto) vehiculo;
-        if (validarAuto(auto)) {
-            int i = existeAuto(auto);
-            if (i != -1) {
-                RepositorioDatos.vehiculos[i] = vehiculo;
-                return true;
-            } else {
-                System.out.println("El auto ingresado no existe");
-            }
-        } else {
-            System.out.println("Faltan cargar datos");
-        }
-        return false;
-    }
-
-    @Override
-    public void eliminarVehiculoImpl(Vehiculo vehiculo) {
-        Auto auto = (Auto) vehiculo;
-        int i = existeAuto(auto);
-        if (i != -1) {
-            RepositorioDatos.vehiculos[i] = null;
-        } else {
-            System.out.println("No se encontró el auto que quiere eliminar");
-        }
-    }
-
-    @Override
-    public void mostrarVehiculoImpl() {
-        for (int i = 0; i < RepositorioDatos.vehiculos.length; i++) {
-            if (RepositorioDatos.vehiculos[i] instanceof Auto) {
-                Auto auto = (Auto) RepositorioDatos.vehiculos[i];
-                if (auto != null) {
-                    System.out.println(auto);
-                }
-            }
-        }
-    }
-
-    private boolean validarAuto(Auto auto) {
-        if (auto == null) {
-            return false;
-        }
-        return !auto.getMarca().isEmpty() && !auto.getModelo().isEmpty() && !auto.getTipoCombustible().isEmpty() && auto.getCantPuerta() != 0;
-    }
-
-    private int existeAuto(Auto auto) {
-        for (int i = 0; i < RepositorioDatos.vehiculos.length; i++) {
-            if (RepositorioDatos.vehiculos[i] instanceof Auto) {
-                Auto a = (Auto) RepositorioDatos.vehiculos[i];
-                if (a != null && auto.getPatente().equals(a.getPatente())) {
-                    return i;
-                }
-            }
-        }
-        return -1;
+    protected Class<Auto> getVehiculoClass() {
+        return Auto.class;
     }
 }

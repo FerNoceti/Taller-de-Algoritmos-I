@@ -12,16 +12,12 @@ import java.util.Scanner;
 import java.util.Random;
 
 public class Menu {
-
     private Scanner scanner;
     private Random random;
-
-    private ABMAutoImpl abmAuto = new ABMAutoImpl();
-    private ABMMotoImpl abmMoto = new ABMMotoImpl();
-
     private PilaImp<Vehiculo[]> pilaDeshacer = new PilaImp<>();
     private PilaImp<Vehiculo[]> pilaRehacer = new PilaImp<>();
-
+    private ABMAutoImpl abmAuto = new ABMAutoImpl();
+    private ABMMotoImpl abmMoto = new ABMMotoImpl();
 
     public Menu(Scanner scanner) {
         this.scanner = scanner;
@@ -29,7 +25,7 @@ public class Menu {
     }
 
     public void displayMenu() {
-        String menuOptions = "1. Cargar auto\n2. Cargar moto\n3. Eliminar vehiculo\n4. Deshacer\n5. Rehacer\n6. Listar autos\n7. Listar motos\n8. Salir";
+        String menuOptions = "1. Cargar auto\n2. Cargar moto\n3. Eliminar vehiculo por posición\n4. Deshacer\n5. Rehacer\n6. Listar autos\n7. Listar motos\n8. Salir";
         int opcion = 0;
 
         while (opcion != 8) {
@@ -44,15 +40,13 @@ public class Menu {
     private void handleMenuOption(int opcion) {
         switch (opcion) {
             case 1:
-                //cargarAuto();
                 cargarAutoAleatorio();
                 break;
             case 2:
-                //cargarMoto();
                 cargarMotoAleatoria();
                 break;
             case 3:
-                eliminarVehiculo();
+                eliminarVehiculoPorPosicion();
                 break;
             case 4:
                 deshacer();
@@ -75,19 +69,7 @@ public class Menu {
         }
     }
 
-    private void guardarEstadoEnPila(PilaImp<Vehiculo[]> pila, Vehiculo[] estado) {
-        pila.insertarElemento(estado.clone());
-    }
-
-    private Vehiculo[] clonarVehiculos(Vehiculo[] vehiculos) {
-        Vehiculo[] clone = new Vehiculo[vehiculos.length];
-        for (int i = 0; i < vehiculos.length; i++) {
-            clone[i] = vehiculos[i];
-        }
-        return clone;
-    }
-
-    //Opcion 1
+    // Opcion 1
     private void cargarAutoAleatorio() {
         guardarEstadoEnPila(pilaDeshacer, clonarVehiculos(RepositorioDatos.vehiculos));
         pilaRehacer.vaciar();
@@ -140,10 +122,13 @@ public class Menu {
         abmMoto.cargarVehiculoImpl(moto);
     }
 
-    // Opcion 3
-
-    private void eliminarVehiculo() {
-        //ToDo
+    //Opcion 3
+    private void eliminarVehiculoPorPosicion() {
+        System.out.print("Ingrese la posición del vehículo a eliminar: ");
+        int posicion = scanner.nextInt();
+        guardarEstadoEnPila(pilaDeshacer, clonarVehiculos(RepositorioDatos.vehiculos));
+        pilaRehacer.vaciar();
+        abmAuto.eliminarVehiculoPorPosicionImpl(posicion);
     }
 
     //Opcion 4
@@ -155,7 +140,6 @@ public class Menu {
             System.out.println("No hay operaciones para deshacer");
         }
     }
-
 
     //Opcion 5
     private void rehacer() {
@@ -174,7 +158,18 @@ public class Menu {
 
     //Opcion 7
     private void listarMotos() {
-        abmMoto.mostrarVehiculoImpl();
+        // Implementación para listar motos
     }
 
+    private void guardarEstadoEnPila(PilaImp<Vehiculo[]> pila, Vehiculo[] estado) {
+        pila.insertarElemento(estado.clone());
+    }
+
+    private Vehiculo[] clonarVehiculos(Vehiculo[] vehiculos) {
+        Vehiculo[] clone = new Vehiculo[vehiculos.length];
+        for (int i = 0; i < vehiculos.length; i++) {
+            clone[i] = vehiculos[i];
+        }
+        return clone;
+    }
 }

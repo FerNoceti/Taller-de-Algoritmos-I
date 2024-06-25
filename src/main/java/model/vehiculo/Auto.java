@@ -9,7 +9,6 @@ public class Auto extends Vehiculo {
     private int cantPuerta;
     private String tipoCombustible;
     private String marca;
-    private String patente;
 
     public Auto() {
         super();
@@ -17,11 +16,10 @@ public class Auto extends Vehiculo {
 
     public Auto(String modelo, String color, double precio, float kilometro, boolean usado, int cantPuerta,
                 String tipoCombustible, String marca, String patente) {
-        super(modelo, color, precio, kilometro, usado);
+        super(modelo, color, precio, kilometro, usado, patente);
         this.cantPuerta = cantPuerta;
         this.tipoCombustible = tipoCombustible;
         this.marca = marca;
-        this.patente = patente;
     }
 
     public int getCantPuerta() {
@@ -46,14 +44,6 @@ public class Auto extends Vehiculo {
 
     public void setMarca(String marca) {
         this.marca = marca;
-    }
-
-    public String getPatente() {
-        return patente;
-    }
-
-    public void setPatente(String patente) {
-        this.patente = patente;
     }
 
     public boolean cargarAuto(Auto auto) {
