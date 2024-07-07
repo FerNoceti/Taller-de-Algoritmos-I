@@ -1,15 +1,18 @@
 package model.vehiculo;
 
-public class Auto extends Vehiculo {
+public class Auto extends Vehiculo implements Comparable<Auto> {
 
+    // Constantes de tipo de combustible
     public static final String NAFTA = "nafta";
     public static final String GASOIL = "gasoil";
     public static final String ELECTRICO = "electrico";
 
+    // Atributos privados
     private int cantPuerta;
     private String tipoCombustible;
     private String marca;
 
+    // Constructores
     public Auto() {
         super();
     }
@@ -22,6 +25,7 @@ public class Auto extends Vehiculo {
         this.marca = marca;
     }
 
+    // Getters y Setters
     public int getCantPuerta() {
         return cantPuerta;
     }
@@ -71,6 +75,12 @@ public class Auto extends Vehiculo {
                 "  Precio: " + getPrecio() + "\n" +
                 "  Patente: " + getPatente() + "\n" +
                 "}";
+    }
+
+    // compareTo
+    @Override
+    public int compareTo(Auto auto) {
+        return this.getPatente().compareTo(auto.getPatente());
     }
 
 }

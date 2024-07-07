@@ -1,6 +1,6 @@
 package model.vehiculo;
 
-public class Moto extends Vehiculo {
+public class Moto extends Vehiculo implements Comparable<Moto> {
 
     // Constantes de cilindrada de la moto
     public static final int BAJA = 200;
@@ -41,7 +41,7 @@ public class Moto extends Vehiculo {
         this.marca = marca;
     }
 
-    // Método toString() sobreescrito
+    // toString()
     @Override
     public String toString() {
         return "Moto {" +
@@ -54,4 +54,11 @@ public class Moto extends Vehiculo {
                 "\n  Patente: " + getPatente() +
                 "\n}";
     }
+
+    // compareTo()
+    @Override
+    public int compareTo(Moto o) {
+        return this.getPatente().compareTo(o.getPatente());
+    }
+
 }
