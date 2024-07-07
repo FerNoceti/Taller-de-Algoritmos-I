@@ -2,25 +2,22 @@ package model.vehiculo.abm;
 
 import model.vehiculo.Vehiculo;
 import repository.RepositorioDatos;
+import util.listaDoble.NodoDoble;
 
 public abstract class AbstractABMVehiculo<T extends Vehiculo> implements IAbmVehiculo {
 
     @Override
     public boolean cargarVehiculoImpl(Vehiculo vehiculo) {
-        if (RepositorioDatos.indice < RepositorioDatos.TAMANIO_ARREGLO) {
-            T v = (T) vehiculo;
-            if (validarVehiculo(v)) {
-                if (!existeVehiculo(v)) {
-                    RepositorioDatos.vehiculos[RepositorioDatos.indice++] = v;
-                    return true;
-                } else {
-                    System.out.println("El vehículo ingresado ya existe");
-                }
+        T v = (T) vehiculo;
+        if (validarVehiculo(v)) {
+            if (!existeVehiculo(v)) {
+                RepositorioDatos.vehiculos.insertarAlFinal(v);
+                return true;
             } else {
-                System.out.println("Faltan cargar datos");
+                System.out.println("El vehículo ingresado ya existe");
             }
         } else {
-            System.out.println("Se superó la capacidad del arreglo de vehículos");
+            System.out.println("Faltan cargar datos");
         }
         return false;
     }
@@ -29,9 +26,9 @@ public abstract class AbstractABMVehiculo<T extends Vehiculo> implements IAbmVeh
     public boolean modificarVehiculoImpl(Vehiculo vehiculo) {
         T v = (T) vehiculo;
         if (validarVehiculo(v)) {
-            int index = buscarIndicePorPatente(v.getPatente());
-            if (index != -1) {
-                RepositorioDatos.vehiculos[index] = v;
+            NodoDoble<Vehiculo> nodo = buscarNodoPorPatente(v.getPatente());
+            if (nodo != null) {
+                nodo.dato = v;
                 return true;
             } else {
                 System.out.println("El vehículo ingresado no existe");
@@ -44,17 +41,22 @@ public abstract class AbstractABMVehiculo<T extends Vehiculo> implements IAbmVeh
 
     @Override
     public void eliminarVehiculoPorPosicionImpl(int posicion) {
-        if (posicion >= 0 && posicion < RepositorioDatos.indice) {
-            if (RepositorioDatos.vehiculos[posicion] != null && RepositorioDatos.vehiculos[posicion].getClass().equals(getVehiculoClass())) {
-                RepositorioDatos.vehiculos[posicion] = null;
-                compactarArreglo(posicion);
-                RepositorioDatos.indice--;
-            } else {
-                System.out.println("No hay un vehículo del tipo esperado en la posición indicada");
+        NodoDoble<Vehiculo> nodoActual = RepositorioDatos.vehiculos.getPrimerNodo();
+        int indice = 0;
+        while (nodoActual != null) {
+            if (indice == posicion) {
+                if (nodoActual.dato.getClass().equals(getVehiculoClass())) {
+                    RepositorioDatos.vehiculos.eliminarNodo(nodoActual.dato);
+                    return;
+                } else {
+                    System.out.println("No hay un vehículo del tipo esperado en la posición indicada");
+                    return;
+                }
             }
-        } else {
-            System.out.println("Posición fuera de los límites del arreglo");
+            nodoActual = nodoActual.nodoSiguiente;
+            indice++;
         }
+        System.out.println("Posición fuera de los límites de la lista");
     }
 
     public abstract String listaDeVehiculos();
@@ -64,25 +66,20 @@ public abstract class AbstractABMVehiculo<T extends Vehiculo> implements IAbmVeh
     protected abstract Class<T> getVehiculoClass();
 
     private boolean existeVehiculo(T vehiculo) {
-        return buscarIndicePorPatente(vehiculo.getPatente()) != -1;
+        return buscarNodoPorPatente(vehiculo.getPatente()) != null;
     }
 
-    private int buscarIndicePorPatente(String patente) {
-        for (int i = 0; i < RepositorioDatos.indice; i++) {
-            if (RepositorioDatos.vehiculos[i] != null && RepositorioDatos.vehiculos[i].getClass().equals(getVehiculoClass())) {
-                T v = (T) RepositorioDatos.vehiculos[i];
+    private NodoDoble<Vehiculo> buscarNodoPorPatente(String patente) {
+        NodoDoble<Vehiculo> nodoActual = RepositorioDatos.vehiculos.getPrimerNodo();
+        while (nodoActual != null) {
+            if (nodoActual.dato.getClass().equals(getVehiculoClass())) {
+                T v = (T) nodoActual.dato;
                 if (v.getPatente().equals(patente)) {
-                    return i;
+                    return nodoActual;
                 }
             }
+            nodoActual = nodoActual.nodoSiguiente;
         }
-        return -1;
-    }
-
-    private void compactarArreglo(int desdePosicion) {
-        for (int i = desdePosicion; i < RepositorioDatos.indice - 1; i++) {
-            RepositorioDatos.vehiculos[i] = RepositorioDatos.vehiculos[i + 1];
-        }
-        RepositorioDatos.vehiculos[RepositorioDatos.indice - 1] = null;
+        return null;
     }
 }

@@ -3,26 +3,29 @@ package model.vehiculo.abm;
 import model.vehiculo.Moto;
 import model.vehiculo.Vehiculo;
 import repository.RepositorioDatos;
+import util.listaDoble.NodoDoble;
 
 public class ABMMotoImpl extends AbstractABMVehiculo<Moto> {
 
     @Override
     public String listaDeVehiculos() {
-        String vehiculos = "Motos:\n";
+        StringBuilder vehiculos = new StringBuilder("Motos:\n");
         boolean hayMotos = false;
 
-        for (Vehiculo vehiculo : RepositorioDatos.vehiculos) {
-            if (vehiculo instanceof Moto moto) {
-                vehiculos += moto + "\n";
+        NodoDoble<Vehiculo> nodoActual = RepositorioDatos.vehiculos.getPrimerNodo();
+        while (nodoActual != null) {
+            if (nodoActual.dato instanceof Moto moto) {
+                vehiculos.append(moto).append("\n");
                 hayMotos = true;
             }
+            nodoActual = nodoActual.nodoSiguiente;
         }
 
         if (!hayMotos) {
-            vehiculos += "No hay motos cargadas";
+            vehiculos.append("No hay motos cargadas");
         }
 
-        return vehiculos;
+        return vehiculos.toString();
     }
 
     @Override
