@@ -12,8 +12,7 @@ public class ABMAutoImpl extends AbstractABMVehiculo<Auto> {
         boolean hayAutos = false;
 
         for (Vehiculo vehiculo : RepositorioDatos.vehiculos) {
-            if (vehiculo instanceof Auto) {
-                Auto auto = (Auto) vehiculo;
+            if (vehiculo instanceof Auto auto) {
                 vehiculos += auto + "\n";
                 hayAutos = true;
             }

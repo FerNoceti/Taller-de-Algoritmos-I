@@ -9,7 +9,7 @@ public class Moto extends Vehiculo implements Comparable<Moto> {
 
     // Atributos privados
     private int cilindrada;
-    private String marca;;
+    private String marca;
 
     // Constructores
     public Moto() {

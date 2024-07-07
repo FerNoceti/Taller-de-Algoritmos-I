@@ -8,16 +8,16 @@ import model.vehiculo.abm.ABMMotoImpl;
 import repository.RepositorioDatos;
 import util.pila.PilaImp;
 
-import java.util.Scanner;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Menu {
-    private Scanner scanner;
-    private Random random;
-    private PilaImp<Vehiculo[]> pilaDeshacer = new PilaImp<>();
-    private PilaImp<Vehiculo[]> pilaRehacer = new PilaImp<>();
-    private ABMAutoImpl abmAuto = new ABMAutoImpl();
-    private ABMMotoImpl abmMoto = new ABMMotoImpl();
+    private final Scanner scanner;
+    private final Random random;
+    private final PilaImp<Vehiculo[]> pilaDeshacer = new PilaImp<>();
+    private final PilaImp<Vehiculo[]> pilaRehacer = new PilaImp<>();
+    private final ABMAutoImpl abmAuto = new ABMAutoImpl();
+    private final ABMMotoImpl abmMoto = new ABMMotoImpl();
 
     public Menu(Scanner scanner) {
         this.scanner = scanner;
@@ -84,7 +84,7 @@ public class Menu {
         String color = colores[random.nextInt(colores.length)];
 
         double precio = 5000 + Math.round((100000 - 5000) * random.nextDouble());
-        float kilometro = Math.round((200000 - 0) * random.nextFloat());
+        float kilometro = Math.round((200000) * random.nextFloat());
         boolean usado = random.nextBoolean();
         int cantPuerta = 2 + random.nextInt(5 - 2 + 1);
         String tipoCombustible = combustibles[random.nextInt(combustibles.length)];
@@ -110,7 +110,7 @@ public class Menu {
         String color = colores[random.nextInt(colores.length)];
 
         double precio = 2000 + Math.round((50000 - 2000) * random.nextDouble());
-        float kilometro = Math.round((50000 - 0) * random.nextFloat());
+        float kilometro = Math.round((50000) * random.nextFloat());
         boolean usado = random.nextBoolean();
         int cilindrada = Moto.BAJA + random.nextInt((Moto.ALTA - Moto.BAJA) + 1);
 
@@ -181,9 +181,7 @@ public class Menu {
 
     private Vehiculo[] clonarVehiculos(Vehiculo[] vehiculos) {
         Vehiculo[] clone = new Vehiculo[vehiculos.length];
-        for (int i = 0; i < vehiculos.length; i++) {
-            clone[i] = vehiculos[i];
-        }
+        System.arraycopy(vehiculos, 0, clone, 0, vehiculos.length);
         return clone;
     }
 }
