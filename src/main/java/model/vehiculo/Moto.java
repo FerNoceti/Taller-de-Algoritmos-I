@@ -1,6 +1,6 @@
 package model.vehiculo;
 
-public class Moto extends Vehiculo implements Comparable<Moto> {
+public class Moto extends Vehiculo {
 
     // Constantes de cilindrada de la moto
     public static final int BAJA = 200;
@@ -59,6 +59,28 @@ public class Moto extends Vehiculo implements Comparable<Moto> {
     @Override
     public int compareTo(Moto o) {
         return this.getPatente().compareTo(o.getPatente());
+    }
+
+    @Override
+    public int compareTo(Auto auto) {
+        return 1;
+    }
+
+    @Override
+    public int compareTo(Vehiculo vehiculo) {
+        if (vehiculo instanceof Moto) {
+            return this.compareTo((Moto) vehiculo);
+        }
+        return -1;
+    }
+
+    // equals()
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Moto moto) {
+            return this.getPatente().equals(moto.getPatente());
+        }
+        return false;
     }
 
 }

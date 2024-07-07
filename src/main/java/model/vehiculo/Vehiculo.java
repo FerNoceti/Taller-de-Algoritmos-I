@@ -1,6 +1,6 @@
 package model.vehiculo;
 
-public abstract class Vehiculo {//implements IAbmVehiculo {
+public abstract class Vehiculo implements Comparable<Vehiculo> {//implements IAbmVehiculo {
 
     private String modelo;
     private String color;
@@ -70,4 +70,11 @@ public abstract class Vehiculo {//implements IAbmVehiculo {
     public void setPatente(String patente) {
         this.patente = patente;
     }
+
+
+    // compareTo()
+    public abstract int compareTo(Moto o);
+
+    // compareTo
+    public abstract int compareTo(Auto auto);
 }

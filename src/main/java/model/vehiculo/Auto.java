@@ -1,6 +1,6 @@
 package model.vehiculo;
 
-public class Auto extends Vehiculo implements Comparable<Auto> {
+public class Auto extends Vehiculo {
 
     // Constantes de tipo de combustible
     public static final String NAFTA = "nafta";
@@ -81,6 +81,28 @@ public class Auto extends Vehiculo implements Comparable<Auto> {
     @Override
     public int compareTo(Auto auto) {
         return this.getPatente().compareTo(auto.getPatente());
+    }
+
+    @Override
+    public int compareTo(Vehiculo o) {
+        if (o instanceof Auto) {
+            return this.compareTo((Auto) o);
+        }
+        return -1;
+    }
+
+    @Override
+    public int compareTo(Moto o) {
+        return -1;
+    }
+
+    // equals
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Auto) {
+            return this.getPatente().equals(((Auto) obj).getPatente());
+        }
+        return false;
     }
 
 }
