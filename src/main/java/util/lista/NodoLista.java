@@ -1,10 +1,10 @@
 package util.lista;
 
-public class NodoLista {
-    public int dato;
-    public NodoLista siguienteNodo;
+public class NodoLista<T extends Comparable<T>> {
+    public T dato;
+    public NodoLista<T> siguienteNodo;
 
-    public NodoLista(int dato){
+    public NodoLista(T dato) {
         this.dato = dato;
         this.siguienteNodo = null;
     }

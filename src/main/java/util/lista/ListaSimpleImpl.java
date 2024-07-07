@@ -1,29 +1,30 @@
 package util.lista;
 
-public class ListaSimpleImpl implements IListaSimple {
+public class ListaSimpleImpl<T extends Comparable<T>> implements IListaSimple<T> {
 
-    private NodoLista primerNodo, ultimoNodo;
+    private NodoLista<T> primerNodo;
+    private NodoLista<T> ultimoNodo;
 
-    public ListaSimpleImpl(){
+    public ListaSimpleImpl() {
         this.primerNodo = this.ultimoNodo = null;
     }
 
     @Override
-    public void agregarNodo(NodoLista nuevoNodo) {
+    public void agregarNodo(NodoLista<T> nuevoNodo) {
         if (estaVacia()) {
             this.primerNodo = this.ultimoNodo = nuevoNodo;
         } else {
-            if (nuevoNodo.dato < this.primerNodo.dato) {
+            if (nuevoNodo.dato.compareTo(this.primerNodo.dato) < 0) {
                 nuevoNodo.siguienteNodo = this.primerNodo;
                 this.primerNodo = nuevoNodo;
-            } else if (nuevoNodo.dato > this.ultimoNodo.dato) {
+            } else if (nuevoNodo.dato.compareTo(this.ultimoNodo.dato) > 0) {
                 this.ultimoNodo.siguienteNodo = nuevoNodo;
                 this.ultimoNodo = nuevoNodo;
             } else {
-                NodoLista nodoActual = this.primerNodo.siguienteNodo;
-                NodoLista nodoAnterior = this.primerNodo;
+                NodoLista<T> nodoActual = this.primerNodo.siguienteNodo;
+                NodoLista<T> nodoAnterior = this.primerNodo;
                 while (nodoActual != null) {
-                    if (nuevoNodo.dato < nodoActual.dato) {
+                    if (nuevoNodo.dato.compareTo(nodoActual.dato) < 0) {
                         nuevoNodo.siguienteNodo = nodoAnterior.siguienteNodo;
                         nodoAnterior.siguienteNodo = nuevoNodo;
                         break;
@@ -36,17 +37,17 @@ public class ListaSimpleImpl implements IListaSimple {
     }
 
     @Override
-    public NodoLista eliminarNodo(int dato) {
-        NodoLista nodoEliminado = null;
+    public NodoLista<T> eliminarNodo(T dato) {
+        NodoLista<T> nodoEliminado = null;
         if (!estaVacia()) {
-            if (this.primerNodo.dato == dato) {
+            if (this.primerNodo.dato.compareTo(dato) == 0) {
                 nodoEliminado = this.primerNodo;
                 this.primerNodo = this.primerNodo.siguienteNodo;
             } else {
-                NodoLista nodoActual = this.primerNodo.siguienteNodo;
-                NodoLista nodoAnterior = this.primerNodo;
+                NodoLista<T> nodoActual = this.primerNodo.siguienteNodo;
+                NodoLista<T> nodoAnterior = this.primerNodo;
                 while (nodoActual != null) {
-                    if (nodoActual.dato == dato) {
+                    if (nodoActual.dato.compareTo(dato) == 0) {
                         nodoEliminado = nodoActual;
                         nodoAnterior.siguienteNodo = nodoActual.siguienteNodo;
                         break;
@@ -63,7 +64,7 @@ public class ListaSimpleImpl implements IListaSimple {
 
     @Override
     public void listar() {
-        NodoLista nodoActual = this.primerNodo;
+        NodoLista<T> nodoActual = this.primerNodo;
         while (nodoActual != null) {
             System.out.println("El dato es: " + nodoActual.dato);
             nodoActual = nodoActual.siguienteNodo;
@@ -71,11 +72,11 @@ public class ListaSimpleImpl implements IListaSimple {
     }
 
     @Override
-    public NodoLista buscarNodo(int dato) {
-        NodoLista nodoBuscado = null;
-        NodoLista nodoActual = this.primerNodo;
+    public NodoLista<T> buscarNodo(T dato) {
+        NodoLista<T> nodoBuscado = null;
+        NodoLista<T> nodoActual = this.primerNodo;
         while (nodoActual != null) {
-            if (nodoActual.dato == dato) {
+            if (nodoActual.dato.compareTo(dato) == 0) {
                 nodoBuscado = nodoActual;
                 break;
             }
@@ -85,6 +86,6 @@ public class ListaSimpleImpl implements IListaSimple {
     }
 
     private boolean estaVacia() {
-        return this.primerNodo == null && this.ultimoNodo == null;
+        return this.primerNodo == null;
     }
 }
