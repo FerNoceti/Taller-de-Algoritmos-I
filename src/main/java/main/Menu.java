@@ -29,7 +29,7 @@ public class Menu {
 
         int opcion = 0;
 
-        while (opcion != 10) {
+        while (opcion != 11) {
             System.out.println(menuOptions);
             System.out.print("Ingrese una opcion: ");
             opcion = scanner.nextInt();
@@ -217,7 +217,7 @@ public class Menu {
         if (vehiculos.estaVacia()) {
             System.out.println("No hay vehículos cargados");
         } else {
-            vehiculos.listarElementos("DESC");
+            vehiculos.listarElementos("DES");
         }
     }
 
