@@ -1,44 +1,29 @@
 package util.listaDoble;
 
-public class ListaDobleImpl implements IListaDoble {
+public class ListaDobleImpl<T extends Comparable<T>> implements IListaDoble<T> {
 
-    private NodoDoble primerNodo, ultimoNodo;
+    private NodoDoble<T> primerNodo;
+    private NodoDoble<T> ultimoNodo;
 
-    public ListaDobleImpl(){
+    public ListaDobleImpl() {
         this.primerNodo = this.ultimoNodo = null;
     }
 
     @Override
-    public void insertarNodo(String dato) {
-        NodoDoble nuevoNodo = new NodoDoble(dato);
+    public void insertarAlFinal(T dato) {
+        NodoDoble<T> nuevoNodo = new NodoDoble<>(dato);
         if (estaVacia()) {
             this.primerNodo = this.ultimoNodo = nuevoNodo;
-        } else if (this.primerNodo.dato.compareTo(nuevoNodo.dato) > 0) {
-            this.primerNodo.nodoAnterior = nuevoNodo;
-            nuevoNodo.nodoSiguiente = this.primerNodo;
-            this.primerNodo = nuevoNodo;
-        } else if (this.ultimoNodo.dato.compareTo(nuevoNodo.dato) < 0) {
+        } else {
             this.ultimoNodo.nodoSiguiente = nuevoNodo;
             nuevoNodo.nodoAnterior = this.ultimoNodo;
             this.ultimoNodo = nuevoNodo;
-        } else {
-            NodoDoble nodoActual = this.primerNodo.nodoSiguiente;
-            while (nodoActual != null) {
-                if (nodoActual.dato.compareTo(nuevoNodo.dato) > 0) {
-                    nuevoNodo.nodoSiguiente = nodoActual;
-                    nuevoNodo.nodoAnterior = nodoActual.nodoAnterior;
-                    nodoActual.nodoAnterior.nodoSiguiente = nuevoNodo;
-                    nodoActual.nodoAnterior = nuevoNodo;
-                    break;
-                }
-                nodoActual = nodoActual.nodoSiguiente;
-            }
         }
     }
 
     @Override
-    public NodoDoble eliminarNodo(String dato) {
-        NodoDoble nodoEliminado = null;
+    public NodoDoble<T> eliminarNodo(T dato) {
+        NodoDoble<T> nodoEliminado = null;
         if (!estaVacia()) {
             if (this.primerNodo.dato.compareTo(dato) == 0) {
                 nodoEliminado = this.primerNodo;
@@ -53,7 +38,7 @@ public class ListaDobleImpl implements IListaDoble {
                     this.ultimoNodo.nodoSiguiente = null;
                 }
             } else {
-                NodoDoble nodoActual = this.primerNodo.nodoSiguiente;
+                NodoDoble<T> nodoActual = this.primerNodo.nodoSiguiente;
                 while (nodoActual != null) {
                     if (nodoActual.dato.compareTo(dato) == 0) {
                         nodoEliminado = nodoActual;
@@ -73,17 +58,17 @@ public class ListaDobleImpl implements IListaDoble {
     }
 
     @Override
-    public void listarListaDoble(String tipoOrden) {
+    public void listarElementos(String tipoOrden) {
         switch (tipoOrden) {
             case "ASC":
-                NodoDoble nodoActual = this.primerNodo;
-                while (nodoActual != null) {
-                    System.out.println("El dato es: " + nodoActual.dato);
-                    nodoActual = nodoActual.nodoSiguiente;
+                NodoDoble<T> nodoActualAsc = this.primerNodo;
+                while (nodoActualAsc != null) {
+                    System.out.println("El dato es: " + nodoActualAsc.dato);
+                    nodoActualAsc = nodoActualAsc.nodoSiguiente;
                 }
                 break;
             case "DES":
-                NodoDoble nodoActualDesc = this.ultimoNodo;
+                NodoDoble<T> nodoActualDesc = this.ultimoNodo;
                 while (nodoActualDesc != null) {
                     System.out.println("El dato es: " + nodoActualDesc.dato);
                     nodoActualDesc = nodoActualDesc.nodoAnterior;
@@ -93,9 +78,9 @@ public class ListaDobleImpl implements IListaDoble {
     }
 
     @Override
-    public NodoDoble buscarNodo(String dato) {
-        NodoDoble nodoBuscado = null;
-        NodoDoble nodoActual = this.primerNodo;
+    public NodoDoble<T> buscarNodo(T dato) {
+        NodoDoble<T> nodoBuscado = null;
+        NodoDoble<T> nodoActual = this.primerNodo;
         while (nodoActual != null) {
             if (nodoActual.dato.compareTo(dato) == 0) {
                 nodoBuscado = nodoActual;

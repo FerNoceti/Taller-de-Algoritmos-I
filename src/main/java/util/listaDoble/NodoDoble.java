@@ -1,18 +1,18 @@
 package util.listaDoble;
 
-public class NodoDoble implements Comparable<NodoDoble> {
+public class NodoDoble<T extends Comparable<T>> implements Comparable<NodoDoble<T>> {
 
-    public String dato;
-    public NodoDoble nodoAnterior;
-    public NodoDoble nodoSiguiente;
+    public T dato;
+    public NodoDoble<T> nodoAnterior;
+    public NodoDoble<T> nodoSiguiente;
 
-    public NodoDoble(String dato) {
+    public NodoDoble(T dato) {
         this.dato = dato;
         this.nodoSiguiente = this.nodoAnterior = null;
     }
 
     @Override
-    public int compareTo(NodoDoble otroNodo) {
+    public int compareTo(NodoDoble<T> otroNodo) {
         return this.dato.compareTo(otroNodo.dato);
     }
 }
