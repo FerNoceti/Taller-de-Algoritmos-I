@@ -3,21 +3,19 @@ package main;
 import model.vehiculo.Auto;
 import model.vehiculo.Moto;
 import model.vehiculo.Vehiculo;
-import model.vehiculo.abm.ABMAutoImpl;
-import model.vehiculo.abm.ABMMotoImpl;
 import repository.RepositorioDatos;
+import util.listaDoble.ListaDobleImpl;
+import util.listaDoble.NodoDoble;
 import util.pila.PilaImp;
 
 import java.util.Random;
 import java.util.Scanner;
 
+import static repository.RepositorioDatos.*;
+
 public class Menu {
     private final Scanner scanner;
     private final Random random;
-    private final PilaImp<Vehiculo[]> pilaDeshacer = new PilaImp<>();
-    private final PilaImp<Vehiculo[]> pilaRehacer = new PilaImp<>();
-    private final ABMAutoImpl abmAuto = new ABMAutoImpl();
-    private final ABMMotoImpl abmMoto = new ABMMotoImpl();
 
     public Menu(Scanner scanner) {
         this.scanner = scanner;
@@ -25,10 +23,13 @@ public class Menu {
     }
 
     public void displayMenu() {
-        String menuOptions = "1. Cargar auto\n2. Cargar moto\n3. Eliminar vehiculo por posición\n4. Deshacer\n5. Rehacer\n6. Listar autos\n7. Listar motos\n8. Salir";
+        String menuOptions = "1. Cargar auto\n2. Cargar moto\n3. Eliminar vehiculo por posición\n4. Deshacer" +
+                "\n5. Rehacer\n6. Listar autos\n7. Listar motos\n8. Listar vehiculos ascendente" +
+                "\n9. Listar vehiculos descendente \n10.Ordenar con Quicksort\n11. Salir";
+
         int opcion = 0;
 
-        while (opcion != 8) {
+        while (opcion != 10) {
             System.out.println(menuOptions);
             System.out.print("Ingrese una opcion: ");
             opcion = scanner.nextInt();
@@ -61,7 +62,16 @@ public class Menu {
                 listarMotos();
                 break;
             case 8:
-                System.out.println("Programa finalizado");
+                listarVehiculosAsc();
+                break;
+            case 9:
+                listarVehiculosDesc();
+                break;
+            case 10:
+                ordenarVehiculos();
+                break;
+            case 11:
+                System.out.println("Saliendo...");
                 break;
             default:
                 System.out.println("Opcion incorrecta");
@@ -69,7 +79,6 @@ public class Menu {
         }
     }
 
-    // Opcion 1
     private void cargarAutoAleatorio() {
         guardarEstadoEnPila(pilaDeshacer, clonarVehiculos(RepositorioDatos.vehiculos));
         pilaRehacer.vaciar();
@@ -96,7 +105,6 @@ public class Menu {
         abmAuto.cargarVehiculoImpl(auto);
     }
 
-    // Opcion 2
     private void cargarMotoAleatoria() {
         guardarEstadoEnPila(pilaDeshacer, clonarVehiculos(RepositorioDatos.vehiculos));
         pilaRehacer.vaciar();
@@ -122,12 +130,11 @@ public class Menu {
         abmMoto.cargarVehiculoImpl(moto);
     }
 
-    //Opcion 3
     private void eliminarVehiculoPorPosicion() {
         System.out.print("Ingrese la posición del vehículo a eliminar: ");
         int posicion = scanner.nextInt();
 
-        if (posicion < 0 || posicion >= RepositorioDatos.vehiculos.length) {
+        if (posicion < 0 || posicion >= RepositorioDatos.vehiculos.getTamanio()) {
             System.out.println("Posición inválida");
             return;
         }
@@ -135,7 +142,7 @@ public class Menu {
         guardarEstadoEnPila(pilaDeshacer, clonarVehiculos(RepositorioDatos.vehiculos));
         pilaRehacer.vaciar();
 
-        Vehiculo vehiculoAEliminar = RepositorioDatos.vehiculos[posicion];
+        Vehiculo vehiculoAEliminar = getVehiculoEnPosicion(posicion);
         if (vehiculoAEliminar instanceof Auto) {
             abmAuto.eliminarVehiculoPorPosicionImpl(posicion);
         } else if (vehiculoAEliminar instanceof Moto) {
@@ -145,7 +152,6 @@ public class Menu {
         }
     }
 
-    //Opcion 4
     private void deshacer() {
         if (!pilaDeshacer.estaVacia()) {
             guardarEstadoEnPila(pilaRehacer, clonarVehiculos(RepositorioDatos.vehiculos));
@@ -155,7 +161,6 @@ public class Menu {
         }
     }
 
-    //Opcion 5
     private void rehacer() {
         if (!pilaRehacer.estaVacia()) {
             guardarEstadoEnPila(pilaDeshacer, clonarVehiculos(RepositorioDatos.vehiculos));
@@ -165,23 +170,62 @@ public class Menu {
         }
     }
 
-    //Opcion 6
     private void listarAutos() {
         System.out.println(abmAuto.listaDeVehiculos());
     }
 
-    //Opcion 7
     private void listarMotos() {
         System.out.println(abmMoto.listaDeVehiculos());
     }
 
-    private void guardarEstadoEnPila(PilaImp<Vehiculo[]> pila, Vehiculo[] estado) {
-        pila.insertarElemento(estado.clone());
+    private void guardarEstadoEnPila(PilaImp<ListaDobleImpl<Vehiculo>> pila, ListaDobleImpl<Vehiculo> estado) {
+        pila.insertarElemento(clonarVehiculos(estado));
     }
 
-    private Vehiculo[] clonarVehiculos(Vehiculo[] vehiculos) {
-        Vehiculo[] clone = new Vehiculo[vehiculos.length];
-        System.arraycopy(vehiculos, 0, clone, 0, vehiculos.length);
+    private ListaDobleImpl<Vehiculo> clonarVehiculos(ListaDobleImpl<Vehiculo> vehiculos) {
+        ListaDobleImpl<Vehiculo> clone = new ListaDobleImpl<>();
+        NodoDoble<Vehiculo> nodoActual = vehiculos.getPrimerNodo();
+        while (nodoActual != null) {
+            clone.insertarAlFinal(nodoActual.dato);
+            nodoActual = nodoActual.nodoSiguiente;
+        }
         return clone;
+    }
+
+    private Vehiculo getVehiculoEnPosicion(int posicion) {
+        NodoDoble<Vehiculo> nodoActual = RepositorioDatos.vehiculos.getPrimerNodo();
+        int indice = 0;
+        while (nodoActual != null) {
+            if (indice == posicion) {
+                return nodoActual.dato;
+            }
+            nodoActual = nodoActual.nodoSiguiente;
+            indice++;
+        }
+        return null;
+    }
+
+    private void listarVehiculosAsc() {
+        if (vehiculos.estaVacia()) {
+            System.out.println("No hay vehículos cargados");
+        } else {
+            vehiculos.listarElementos("ASC");
+        }
+    }
+
+    private void listarVehiculosDesc() {
+        if (vehiculos.estaVacia()) {
+            System.out.println("No hay vehículos cargados");
+        } else {
+            vehiculos.listarElementos("DESC");
+        }
+    }
+
+    private void ordenarVehiculos() {
+        if (vehiculos.estaVacia()) {
+            System.out.println("No hay vehículos cargados");
+        } else {
+            vehiculos.quicksort();
+        }
     }
 }
