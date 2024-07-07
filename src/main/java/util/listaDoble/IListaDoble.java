@@ -36,4 +36,37 @@ public interface IListaDoble<T extends Comparable<T>> {
      * @return el nodo encontrado, o null si no se encuentra
      */
     NodoDoble<T> buscarNodo(T dato);
+
+    /**
+     * Verifica si la lista está vacía.
+     *
+     * @return true si la lista está vacía, false en caso contrario
+     */
+    boolean estaVacia();
+
+    /**
+     * Devuelve el primer nodo de la lista.
+     *
+     * @return el primer nodo de la lista
+     */
+    NodoDoble<T> getPrimerNodo();
+
+    /**
+     * Devuelve el último nodo de la lista.
+     *
+     * @return el último nodo de la lista
+     */
+    NodoDoble<T> getUltimoNodo();
+
+    /**
+     * Devuelve el tamaño de la lista.
+     *
+     * @return el tamaño de la lista
+     */
+    int getTamanio();
+
+    /**
+     * Ordena la lista de forma ascendente con el algoritmo Quicksort.
+     */
+    void quicksort();
 }

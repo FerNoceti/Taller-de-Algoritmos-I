@@ -91,7 +91,62 @@ public class ListaDobleImpl<T extends Comparable<T>> implements IListaDoble<T> {
         return nodoBuscado;
     }
 
-    private boolean estaVacia() {
+    @Override
+    public boolean estaVacia() {
         return this.primerNodo == null && this.ultimoNodo == null;
+    }
+
+    @Override
+    public NodoDoble<T> getPrimerNodo() {
+        return this.primerNodo;
+    }
+
+    @Override
+    public NodoDoble<T> getUltimoNodo() {
+        return this.ultimoNodo;
+    }
+
+    @Override
+    public int getTamanio() {
+        int tamanio = 0;
+        NodoDoble<T> nodoActual = this.primerNodo;
+        while (nodoActual != null) {
+            tamanio++;
+            nodoActual = nodoActual.nodoSiguiente;
+        }
+        return tamanio;
+    }
+
+    @Override
+    public void quicksort() {
+        quicksort(this.primerNodo, this.ultimoNodo);
+    }
+
+    private void quicksort(NodoDoble<T> nodoIzq, NodoDoble<T> nodoDer) {
+        if (nodoIzq != null && nodoDer != null && nodoIzq != nodoDer && nodoIzq != nodoDer.nodoSiguiente) {
+            NodoDoble<T> pivote = particion(nodoIzq, nodoDer);
+            quicksort(nodoIzq, pivote.nodoAnterior);
+            quicksort(pivote.nodoSiguiente, nodoDer);
+        }
+    }
+
+    private NodoDoble<T> particion(NodoDoble<T> nodoIzq, NodoDoble<T> nodoDer) {
+        T pivote = nodoDer.dato;
+        NodoDoble<T> i = nodoIzq.nodoAnterior;
+        NodoDoble<T> j = nodoIzq;
+        while (j != nodoDer) {
+            if (j.dato.compareTo(pivote) < 0) {
+                i = (i == null) ? nodoIzq : i.nodoSiguiente;
+                T temp = i.dato;
+                i.dato = j.dato;
+                j.dato = temp;
+            }
+            j = j.nodoSiguiente;
+        }
+        i = (i == null) ? nodoIzq : i.nodoSiguiente;
+        T temp = i.dato;
+        i.dato = nodoDer.dato;
+        nodoDer.dato = temp;
+        return i;
     }
 }
