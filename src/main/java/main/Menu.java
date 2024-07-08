@@ -87,7 +87,6 @@ public class Menu {
         String[] colores = {"Rojo", "Azul", "Negro"};
         String[] combustibles = {Auto.NAFTA, Auto.GASOIL, Auto.ELECTRICO};
         String[] marcas = {"Toyota", "Fiat", "Ford"};
-        String[] patentes = {"ABC123", "DEF456", "GHI789"};
 
         String modelo = modelos[random.nextInt(modelos.length)];
         String color = colores[random.nextInt(colores.length)];
@@ -98,7 +97,9 @@ public class Menu {
         int cantPuerta = 2 + random.nextInt(5 - 2 + 1);
         String tipoCombustible = combustibles[random.nextInt(combustibles.length)];
         String marca = marcas[random.nextInt(marcas.length)];
-        String patente = patentes[random.nextInt(patentes.length)];
+
+        // Generar patente aleatoria
+        String patente = generarPatenteAleatoria();
 
         Auto auto = new Auto(modelo, color, precio, kilometro, usado, cantPuerta, tipoCombustible, marca, patente);
 
@@ -112,7 +113,6 @@ public class Menu {
         String[] modelos = {"Modelo 1", "Modelo 2", "Modelo 3"};
         String[] colores = {"Rojo", "Azul", "Negro"};
         String[] marcas = {"Honda", "Yamaha", "Suzuki"};
-        String[] patentes = {"ABC123", "DEF456", "GHI789"};
 
         String modelo = modelos[random.nextInt(modelos.length)];
         String color = colores[random.nextInt(colores.length)];
@@ -123,11 +123,27 @@ public class Menu {
         int cilindrada = Moto.BAJA + random.nextInt((Moto.ALTA - Moto.BAJA) + 1);
 
         String marca = marcas[random.nextInt(marcas.length)];
-        String patente = patentes[random.nextInt(patentes.length)];
+
+        // Generar patente aleatoria
+        String patente = generarPatenteAleatoria();
 
         Moto moto = new Moto(modelo, color, precio, kilometro, usado, cilindrada, marca, patente);
 
         abmMoto.cargarVehiculoImpl(moto);
+    }
+
+    private String generarPatenteAleatoria() {
+        // Generar 3 letras aleatorias
+        char[] letras = new char[3];
+        for (int i = 0; i < 3; i++) {
+            letras[i] = (char) ('A' + random.nextInt(26));
+        }
+
+        // Generar 3 números aleatorios
+        int numero = random.nextInt(1000);
+
+        // Formar la patente
+        return new String(letras) + String.format("%03d", numero);
     }
 
     private void eliminarVehiculoPorPosicion() {
